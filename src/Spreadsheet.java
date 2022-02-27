@@ -15,6 +15,11 @@ public class Spreadsheet {
         spreadsheet = new Cell[row][col];
     }
 
+    public void insertItem (int theRow, int theColumn, String theValue) {
+        Cell myCell = new Cell(theValue);
+        spreadsheet[theRow][theColumn] = myCell;
+    }
+
     public int getNumRows() {
         return row;
     }
@@ -27,6 +32,13 @@ public class Spreadsheet {
      * print out the values in the spreadsheet
      */
     public void printValues(){
+        for (Cell[] rows : spreadsheet) {
+            for (Cell number: rows) {
+                System.out.print(number + ", ");
+            }
+            System.out.println();
+
+        }
 
     }
 
