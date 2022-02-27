@@ -15,6 +15,12 @@ public class Spreadsheet {
         spreadsheet = new Cell[row][col];
     }
 
+    /**
+     * Inserts an item into a specified place in the spreadsheet
+     * @param theRow
+     * @param theColumn
+     * @param theValue (String, The formula)
+     */
     public void insertItem (int theRow, int theColumn, String theValue) {
         Cell myCell = new Cell(theValue);
         spreadsheet[theRow][theColumn] = myCell;
@@ -29,7 +35,7 @@ public class Spreadsheet {
     }
 
     /**
-     * print out the values in the spreadsheet
+     * print out all the values in the spreadsheet
      */
     public void printValues(){
         for (Cell[] rows : spreadsheet) {

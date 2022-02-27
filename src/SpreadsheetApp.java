@@ -123,6 +123,8 @@ public class SpreadsheetApp {
 
     public static void main(String[] args) {
         Spreadsheet theSpreadsheet = new Spreadsheet(8);        //creates a new spreadsheet with 8 rows and cols
+
+        //Inserting the Items by Hand
         theSpreadsheet.insertItem(0,0,"5+25+78+10");
         theSpreadsheet.insertItem(2,1,"73+24");
 
