@@ -53,17 +53,6 @@ public class Spreadsheet {
     }
 
     /**
-     * takes in an input String and returns the associated CellToken
-     * @param inputCell
-     * @param num
-     * @param cellToken
-     * @return
-     */
-    public CellToken getCellToken (String inputCell,int num,CellToken cellToken){
-        return cellToken;
-    }
-
-    /**
      * prints out the associated formula to the cell token
      * @param cellToken
      */
