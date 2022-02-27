@@ -1,26 +1,63 @@
 public class Spreadsheet {
+    private Cell[][] spreadsheet; //the two-dimensional array to act as the spreadsheet and hold the cell values
+    private static int row;       //number of rows
+    private static int col;       //num of columns
 
-    Token cellToken;
-    private int numRows;
-    private int numColumns;
-
-    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack) {
+    public Spreadsheet(int num){
+        row = num;
+        col = num;
+        spreadsheet = new Cell[row][col];
     }
 
-    public void printAllFormulas() {
-    }
-    public void printCellFormula(CellToken theCellToken) {
-
-    }
-    public static void getCellToken(String inputCell,int IDK_WHAT_THIS_NUMBER_IS_SUPPOSED_BE, CellToken cellToken) {
+    public Spreadsheet(int row, int col){
+        this.row = row;
+        this.col = col;
+        spreadsheet = new Cell[row][col];
     }
 
     public int getNumRows() {
-        return numRows;
+        return row;
     }
 
     public int getNumColumns() {
-        return numColumns;
+        return col;
+    }
+
+    /**
+     * print out the values in the spreadsheet
+     */
+    public void printValues(){
+
+    }
+
+    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){
+
+    }
+
+    /**
+     * takes in an input String and returns the associated CellToken
+     * @param inputCell
+     * @param num
+     * @param cellToken
+     * @return
+     */
+    public CellToken getCellToken (String inputCell,int num,CellToken cellToken){
+        return cellToken;
+    }
+
+    /**
+     * prints out the associated formula to the cell token
+     * @param cellToken
+     */
+    public void printCellFormula(CellToken cellToken){
+
+    }
+
+    /**
+     * prints all the formulas for all the cells in the spreadsheet
+     */
+    public void printAllFormulas(){
+
     }
 
 }
