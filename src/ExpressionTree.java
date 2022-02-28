@@ -3,6 +3,12 @@ public class ExpressionTree {
 
     public void makeEmpty(){}
     public void printTree(){}
+
+    
+    public ExpressionTree(ExpressionTreeNode root){
+        this.root = root;
+    }
+  
     public ExpressionTree() {
         root = new ExpressionTreeNode();
     }

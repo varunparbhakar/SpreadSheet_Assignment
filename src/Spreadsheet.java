@@ -33,6 +33,17 @@ public class Spreadsheet {
     public int getNumColumns() {
         return col;
     }
+    
+     /**
+     * takes in an input String and returns the associated CellToken
+     * @param inputCell
+     * @param num
+     * @param cellToken
+     * @return
+     */
+    public CellToken getCellToken (String inputCell,int num,CellToken cellToken){
+        return cellToken;
+    }
 
     /**
      * print out all the values in the spreadsheet
@@ -50,17 +61,6 @@ public class Spreadsheet {
 
     public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){
 
-    }
-
-    /**
-     * takes in an input String and returns the associated CellToken
-     * @param inputCell
-     * @param num
-     * @param cellToken
-     * @return
-     */
-    public CellToken getCellToken (String inputCell,int num,CellToken cellToken){
-        return cellToken;
     }
 
     /**

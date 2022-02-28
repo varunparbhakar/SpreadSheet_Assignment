@@ -53,9 +53,9 @@ public class SpreadsheetApp {
 
         System.out.println("Enter the cell: ");  //getting user input
         inputString = readString();
-        cellToken = theSpreadsheet.getCellToken(inputString, 0, cellToken);  //assigning the cellToken's values according to input
+        CellToken.getCellToken(inputString, 0, cellToken);
 
-        System.out.println(printCellToken(cellToken));      //printing out the coordinates of the cell, ex: A3
+        System.out.println(printCellToken(cellToken));
         System.out.println(": ");
 
         if ((cellToken.getRow() < 0) ||
