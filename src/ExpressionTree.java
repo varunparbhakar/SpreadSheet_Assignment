@@ -4,5 +4,9 @@ public class ExpressionTree {
     public void makeEmpty(){}
     public void printTree(){}
     public int Evaluate(Spreadsheet spreadsheet){return 0;}
+    
+    public ExpressionTree(ExpressionTreeNode root){
+        this.root = root;
+    }
 
 }
