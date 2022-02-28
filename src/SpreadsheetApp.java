@@ -90,7 +90,7 @@ public class SpreadsheetApp {
 
         System.out.println("Enter the cell to change: ");
         inputCell = readString();
-        CellToken.getCellToken (inputCell, 0, cellToken);
+        theSpreadsheet.getCellToken (inputCell, 0, cellToken);
 
         // error check to make sure the row and column
         // are within spreadsheet array bounds.
