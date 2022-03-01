@@ -5,9 +5,8 @@
  * @author Donald Chinn
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
 
 public class SpreadsheetApp {
 
@@ -121,6 +120,49 @@ public class SpreadsheetApp {
         System.out.println();
     }
 
+    /**
+     * read the .csv file and import cell value to the spread sheet
+     * @param theSpreadsheet
+     */
+    private static void menuReadSpreadsheet(Spreadsheet theSpreadsheet){
+        try {
+            File file = new File("textfile/spreadsheet.csv");
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line = "";
+            String[] tempArr;
+            ArrayList<String> stringArrayList = new ArrayList<>();
+
+            //read csv file and insert item to Array List. Split by ","
+            while((line = br.readLine()) != null) {
+                tempArr = line.split(",");
+                for(String tempStr : tempArr) {
+                    if(tempStr.equals("")){
+                        stringArrayList.add(null);
+                    } else {
+                        stringArrayList.add(tempStr);
+                    }
+
+                }
+            }
+
+            //insert each element in the ArrayList to the Spread Sheet
+            int index = 0;
+            for(int i = 0; i < theSpreadsheet.getNumRows(); i++){
+                for(int j = 0; j < theSpreadsheet.getNumColumns(); j++){
+                    if(index < stringArrayList.size() - 1) {
+                        theSpreadsheet.insertItem(i, j, stringArrayList.get(index));
+                        index++;
+                    }
+                }
+            }
+
+            br.close();
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
 
@@ -142,10 +184,10 @@ public class SpreadsheetApp {
             System.out.println("f: print out a cell's formula");
             System.out.println("a: print all cell formulas");
             System.out.println("c: change the formula of a cell");
-    /* BONUS
+            // BONUS
             System.out.println("r: read in a spreadsheet from a textfile");
-            System.out.println("s: save the spreadsheet to a textfile");
-     */
+            //BONUS System.out.println("s: save the spreadsheet to a textfile");
+
             System.out.println();
             System.out.println("q: quit");
 
@@ -171,11 +213,11 @@ public class SpreadsheetApp {
                     menuChangeCellFormula(theSpreadsheet);
                     break;
 
-                    /* BONUS:
+                // BONUS:
                 case 'r':
                     menuReadSpreadsheet(theSpreadsheet);
                     break;
-
+/*
                 case 's':
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
@@ -197,3 +239,4 @@ public class SpreadsheetApp {
     }
 
 }
+
