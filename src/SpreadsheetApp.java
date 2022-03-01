@@ -89,7 +89,7 @@ public class SpreadsheetApp {
 
         System.out.println("Enter the cell to change: ");
         inputCell = readString();
-        theSpreadsheet.getCellToken (inputCell, 0, cellToken);
+        CellToken.getCellToken (inputCell, 0, cellToken);
 
         // error check to make sure the row and column
         // are within spreadsheet array bounds.
@@ -150,7 +150,7 @@ public class SpreadsheetApp {
             int index = 0;
             for(int i = 0; i < theSpreadsheet.getNumRows(); i++){
                 for(int j = 0; j < theSpreadsheet.getNumColumns(); j++){
-                    if(index < stringArrayList.size() - 1) {
+                    if(index < stringArrayList.size()) {
                         theSpreadsheet.insertItem(i, j, stringArrayList.get(index));
                         index++;
                     }
