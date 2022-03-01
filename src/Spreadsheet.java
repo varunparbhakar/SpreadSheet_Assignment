@@ -59,8 +59,22 @@ public class Spreadsheet {
 
     }
 
+    /**
+     * The major use of his method is to update the tree
+     * @param cellToken
+     * @param expTreeTokenStack
+     */
     public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){  //TODO
-
+        /*
+         *Get String
+         * Get Formula
+         * Get Stack
+         * Build Expression
+         * Get Token
+         * Calculate
+         * Value
+         * Update links
+         */
     }
 
     /**

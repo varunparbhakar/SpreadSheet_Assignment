@@ -2,14 +2,14 @@ public class Stack {
 
     public boolean isEmpty(){return false;}
 
-    public void pop(){}
+    public void pop(){} //remove
 
-    public void push(Object obj){}
+    public void push(Object obj){} //add
 
-    public Object topAndPop(){return null;}
+    public Object topAndPop(){return null;}  //peek and pop
 
     public void makeEmpty(){}
 
-    public Object top(){return null;}
+    public Object top(){return null;} //peek
 
 }
