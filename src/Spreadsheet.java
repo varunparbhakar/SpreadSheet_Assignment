@@ -51,7 +51,7 @@ public class Spreadsheet {
     public void printValues(){
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
-                System.out.print(number.getValue() + ", ");
+                System.out.print(number + ", ");
             }
             System.out.println();
 

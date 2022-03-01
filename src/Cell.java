@@ -1,16 +1,13 @@
+
 public class Cell {
     private String formula;
     private int value;
+
     public Cell(String theValue) {
         formula = theValue;
     }
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
-
-
-    public String getFormula(){
-        return formula;
-    }
 
     public int getValue(){
         return value;
@@ -19,10 +16,20 @@ public class Cell {
 
     }
 
-
+    public String getFormula() {
+        return formula;
+    }
 
     @Override
     public String toString() {
         return formula;
     }
+
+
+
+
+
+
+
+
 }
