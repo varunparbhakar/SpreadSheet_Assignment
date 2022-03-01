@@ -121,7 +121,7 @@ public class SpreadsheetApp {
     }
 
     /**
-     * read the .csv file and import cell value to the spread sheet
+     * read the .csv file and import cell value to the spreadsheet
      * @param theSpreadsheet
      */
     private static void menuReadSpreadsheet(Spreadsheet theSpreadsheet){
