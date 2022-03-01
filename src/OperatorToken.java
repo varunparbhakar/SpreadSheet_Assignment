@@ -9,7 +9,17 @@ public class OperatorToken extends Token {
 
     public OperatorToken(char operatorToken){this.operatorToken = operatorToken;}
 
-    public char getOperatorToken(){return 'z';}
+    /**
+     * returns a char corresponding to the OperatorToken, 0 if it is not an operator
+     * @return a char corresponding to an operator
+     */
+    public char getOperatorToken(){
+        if(isOperator(this.operatorToken)){
+            return this.operatorToken;
+        }else{
+            return '0';  //bad token
+        }
+    }
 
     /**
      * Return true if the char ch is an operator of a formula.
@@ -22,7 +32,7 @@ public class OperatorToken extends Token {
                 (ch == Minus) ||
                 (ch == Mult) ||
                 (ch == Div) ||
-                (ch == LeftParen) );
+                (ch == LeftParen));
     }
 
     /**
@@ -53,7 +63,6 @@ public class OperatorToken extends Token {
                 return 1;
             case LeftParen:
                 return 2;
-
             default:
                 // This case should NEVER happen
                 System.out.println("Error in operatorPriority.");

@@ -43,7 +43,7 @@ public class Spreadsheet {
      */
     public CellToken getCellToken (String inputCell,int num,CellToken cellToken){
         return cellToken;
-    }
+    }  //TODO
 
     /**
      * print out all the values in the spreadsheet
@@ -51,7 +51,7 @@ public class Spreadsheet {
     public void printValues(){
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
-                System.out.print(number + ", ");
+                System.out.print(number.getValue() + ", ");
             }
             System.out.println();
 
@@ -59,7 +59,7 @@ public class Spreadsheet {
 
     }
 
-    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){
+    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){  //TODO
 
     }
 
@@ -68,6 +68,11 @@ public class Spreadsheet {
      * @param cellToken
      */
     public void printCellFormula(CellToken cellToken){
+        int row = cellToken.getRow();
+        int column = cellToken.getColumn();
+
+        Cell cell = spreadsheet[row][column];
+        System.out.println(cell);
 
     }
 
@@ -75,6 +80,24 @@ public class Spreadsheet {
      * prints all the formulas for all the cells in the spreadsheet
      */
     public void printAllFormulas(){
+        for (Cell[] rows : spreadsheet) {
+            for (Cell number: rows) {
+                System.out.print(number + ", ");
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * sorts the cells in the spreadsheet in topological order and evaluates the cells values while the sorting is occurring
+     * @throws CycleFoundException
+     */
+    public void topSort() throws CycleFoundException{       //TODO
+
+    }
+
+    //creating a new exception to handle when a cycle is found
+    class CycleFoundException extends  Exception{       //TODO
 
     }
 

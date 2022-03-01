@@ -6,7 +6,16 @@ public class Cell {
     }
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
-    public void Evaluate (Spreadsheet spreadsheet) {
+
+
+    public String getFormula(){
+        return formula;
+    }
+
+    public int getValue(){
+        return value;
+    }
+    public void Evaluate (Spreadsheet spreadsheet) { //TODO
 
     }
 

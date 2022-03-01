@@ -3,6 +3,8 @@ public class LiteralToken extends Token {
 
     public LiteralToken(int value){this.value = value;};
 
-    public static String getValue(LiteralToken litToken){return "";}
+    public static int getValue(LiteralToken litToken){
+        return litToken.value;
+    }
 
 }
