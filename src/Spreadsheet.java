@@ -48,10 +48,10 @@ public class Spreadsheet {
     /**
      * print out all the values in the spreadsheet
      */
-    public void printValues(){          //TODO this is printing out the formula need to print out the value
+    public void printValues(){
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
-                System.out.print(number + ", ");
+                System.out.print(number.getValue() + ", ");
             }
             System.out.println();
 

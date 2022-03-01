@@ -11,6 +11,10 @@ public class Cell {
     public String getFormula(){
         return formula;
     }
+
+    public int getValue(){
+        return value;
+    }
     public void Evaluate (Spreadsheet spreadsheet) { //TODO
 
     }
