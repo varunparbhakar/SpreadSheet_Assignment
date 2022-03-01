@@ -55,8 +55,8 @@ public class SpreadsheetApp {
         inputString = readString();
         CellToken.getCellToken(inputString, 0, cellToken);
 
-        System.out.println(CellToken.printCellToken(cellToken));
-        System.out.println(": ");
+        System.out.print(CellToken.printCellToken(cellToken));
+        System.out.print(": ");
 
         if ((cellToken.getRow() < 0) ||
                 (cellToken.getRow() >= theSpreadsheet.getNumRows()) ||

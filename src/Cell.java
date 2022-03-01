@@ -8,6 +8,9 @@ public class Cell {
     private ExpressionTree expressionTree;
 
 
+    public String getFormula(){
+        return formula;
+    }
     public void Evaluate (Spreadsheet spreadsheet) { //TODO
 
     }

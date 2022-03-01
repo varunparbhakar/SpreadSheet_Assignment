@@ -48,7 +48,7 @@ public class Spreadsheet {
     /**
      * print out all the values in the spreadsheet
      */
-    public void printValues(){
+    public void printValues(){          //TODO this is printing out the formula need to print out the value
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
                 System.out.print(number + ", ");
@@ -67,15 +67,25 @@ public class Spreadsheet {
      * prints out the associated formula to the cell token
      * @param cellToken
      */
-    public void printCellFormula(CellToken cellToken){  //TODO
+    public void printCellFormula(CellToken cellToken){
+        int row = cellToken.getRow();
+        int column = cellToken.getColumn();
+
+        Cell cell = spreadsheet[row][column];
+        System.out.println(cell);
 
     }
 
     /**
      * prints all the formulas for all the cells in the spreadsheet
      */
-    public void printAllFormulas(){  //TODO
-
+    public void printAllFormulas(){
+        for (Cell[] rows : spreadsheet) {
+            for (Cell number: rows) {
+                System.out.print(number + ", ");
+            }
+            System.out.println();
+        }
     }
 
     /**
