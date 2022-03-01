@@ -9,11 +9,12 @@ public class ExpressionTree {
         this.root = root;
     }
   
-    public ExpressionTree() {
-        root = new ExpressionTreeNode();
-    }
+    /*public ExpressionTree() {
+        this.root = new ExpressionTreeNode();
+    }*/
 
-    public int Evaluate(Spreadsheet spreadsheet) {return 0;}
+    public int Evaluate(Spreadsheet spreadsheet) {return 0;}  //TODO
+
     // Build an expression tree from a stack of ExpressionTreeTokens
     void BuildExpressionTree (Stack s) {
         root = GetExpressionTree(s);
@@ -26,20 +27,21 @@ public class ExpressionTree {
         Token token;
         if (s.isEmpty())
             return null;
-        token = s.topAndPop(); // need to handle stack underflow
+        token = (Token) s.topAndPop(); // need to handle stack underflow
         if ((token instanceof LiteralToken) ||
                 (token instanceof CellToken) ) {
             // Literals and Cells are leaves in the expression tree
-            returnTree = new ExpressionTreeNode(token, NULL, NULL);
+            returnTree = new ExpressionTreeNode(token, null, null);
             return returnTree;
         } else if (token instanceof OperatorToken) {
             // Continue finding tokens that will form the
             // right subtree and left subtree.
             ExpressionTreeNode rightSubtree = GetExpressionTree (s);
             ExpressionTreeNode leftSubtree = GetExpressionTree (s);
-            returnTree =
-                    new ExpressionTreeNode(token, leftSubtree, rightSubtree);
+            returnTree = new ExpressionTreeNode(token, leftSubtree, rightSubtree);
             return returnTree;
+        }else{
+            return null;
         }
     }
 

@@ -55,7 +55,7 @@ public class SpreadsheetApp {
         inputString = readString();
         CellToken.getCellToken(inputString, 0, cellToken);
 
-        System.out.println(printCellToken(cellToken));
+        System.out.println(CellToken.printCellToken(cellToken));
         System.out.println(": ");
 
         if ((cellToken.getRow() < 0) ||
@@ -196,46 +196,4 @@ public class SpreadsheetApp {
         System.out.println("Thank you for using our spreadsheet.");
     }
 
-    /**
-     *  Given a CellToken, print it out as it appears on the
-     *  spreadsheet (e.g., "A3")
-     *  @param cellToken  a CellToken
-     *  @return  the cellToken's coordinates
-     */
-    public static String printCellToken (CellToken cellToken) {
-        char ch;
-        String returnString = "";
-        int col;
-        int largest = 26;  // minimum col number with number_of_digits digits
-        int number_of_digits = 2;
-
-        col = cellToken.getColumn();
-
-        // compute the biggest power of 26 that is less than or equal to col
-        // We don't check for overflow of largest here.
-        while (largest <= col) {
-            largest = largest * 26;
-            number_of_digits++;
-        }
-        largest = largest / 26;
-        number_of_digits--;
-
-        // append the column label, one character at a time
-        while (number_of_digits > 1) {
-            ch = (char) (((col / largest) - 1) + 'A');
-            returnString += ch;
-            col = col % largest;
-            largest = largest  / 26;
-            number_of_digits--;
-        }
-
-        // handle last digit
-        ch = (char) (col + 'A');
-        returnString += ch;
-
-        // append the row as an integer
-        returnString += cellToken.getRow();
-
-        return returnString;
-    }
 }

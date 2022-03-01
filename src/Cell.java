@@ -6,7 +6,9 @@ public class Cell {
     }
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
-    public void Evaluate (Spreadsheet spreadsheet) {
+
+
+    public void Evaluate (Spreadsheet spreadsheet) { //TODO
 
     }
 

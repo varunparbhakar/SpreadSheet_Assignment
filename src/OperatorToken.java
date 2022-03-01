@@ -9,7 +9,7 @@ public class OperatorToken extends Token {
 
     public OperatorToken(char operatorToken){this.operatorToken = operatorToken;}
 
-    public char getOperatorToken(){return 'z';}
+    public char getOperatorToken(){return 'z';}  //TODO
 
     /**
      * Return true if the char ch is an operator of a formula.

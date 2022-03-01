@@ -3,7 +3,11 @@ public class ExpressionTreeNode {
     ExpressionTreeNode left;
     ExpressionTreeNode right;
   
-  
+
+    /*public ExpressionTreeNode(){
+        this.left = null;
+        this.right = null;
+    }*/
   public ExpressionTreeNode(Token token, ExpressionTreeNode left, ExpressionTreeNode right) {
       this.token = token;
       this.left = left;
