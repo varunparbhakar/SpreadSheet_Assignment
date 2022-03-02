@@ -1,6 +1,3 @@
-import java.io.ObjectStreamException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class is a substitute for a Java.util.Stack.

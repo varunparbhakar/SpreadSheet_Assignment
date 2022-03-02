@@ -111,11 +111,15 @@ public class Spreadsheet {
      */
     public void topSort() throws CycleFoundException{       //TODO
 
+
+
     }
 
     //creating a new exception to handle when a cycle is found
-    class CycleFoundException extends  Exception{       //TODO
-
+    class CycleFoundException extends  Exception{
+        public CycleFoundException(String message) {
+            super(message);
+        }
     }
 
 }
