@@ -41,6 +41,9 @@ class SpreadsheetTest {
         String cellFormula = myCell.getFormula();
         int cellValue = myCell.getValue();
 
+        //print
+        System.out.println(myCell.getFormula() + " = " + myCell.getValue());
+
         assertEquals(7,cellValue);
         assertEquals(inputFormula,cellFormula);
     }
