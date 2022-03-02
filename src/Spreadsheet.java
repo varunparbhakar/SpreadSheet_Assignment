@@ -16,6 +16,15 @@ public class Spreadsheet {
     }
 
     /**
+     * get the cell corresponding to the cell token
+     * @param cToken
+     * @return
+     */
+    public Cell getCell(CellToken cToken){
+        return spreadsheet[cToken.getRow()][cToken.getColumn()];
+    }
+
+    /**
      * Inserts an item into a specified place in the spreadsheet
      * @param theRow
      * @param theColumn
