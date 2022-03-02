@@ -63,5 +63,9 @@ public class Stack {
         return myStack.size();
     }
 
+    @Override
+    public String toString() {
+        return myStack.toString();
+    }
 }
 //END
