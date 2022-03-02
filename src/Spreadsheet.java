@@ -155,6 +155,7 @@ public class Spreadsheet {
             throw new CycleFoundException("Cycle found");
         }
 
+
     }
 
     //creating a new exception to handle when a cycle is found
