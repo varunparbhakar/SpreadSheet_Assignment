@@ -42,14 +42,14 @@ public class Token {
      *
      * This algorithm follows the algorithm described in Weiss, pages 105-108.
      */
-    public static Stack getFormula(String formula) {
+    public static Stack getFormula(String formula, Spreadsheet theSpreadsheet, CellToken cellToken) {
         Stack returnStack = new Stack();  // stack of Tokens (representing a postfix expression)
         boolean error = false;
         char ch = ' ';
 
         int literalValue = 0;
 
-        CellToken cellToken;
+        //CellToken cellToken;
         int column = 0;
         int row = 0;
 
@@ -141,6 +141,12 @@ public class Token {
                 // We found a cell reference token
                 CellToken cToken = new CellToken();
                 index = CellToken.getCellToken(formula, index, cToken);
+
+                Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
+                Cell oldCell = theSpreadsheet.getCell(cellToken);
+                newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
+                oldCell.addDependency(newCell);
+
                 if (cToken.getRow() == CellToken.BadCell) {
                     error = true;
                     break;

@@ -104,8 +104,7 @@ public class SpreadsheetApp {
 
         System.out.println("Enter the cell's new formula: ");
         inputFormula = readString();
-        expTreeTokenStack = Token.getFormula(inputFormula);
-
+        expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
         /*
         // This code prints out the expression stack from
         // top to bottom (that is, reverse of postfix).
@@ -167,7 +166,7 @@ public class SpreadsheetApp {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
 
         //Inserting the Items by Hand
-        theSpreadsheet.insertItem(0,0,"5+25+78+10");
+        theSpreadsheet.insertItem(0,0,"5+B2");
         theSpreadsheet.insertItem(2,1,"73+24");
 
         boolean done = false;
