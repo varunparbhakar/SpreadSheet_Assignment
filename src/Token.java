@@ -5,7 +5,7 @@ public class Token {
      * @param expTreeToken  an ExpressionTreeToken
      * @return a String associated with expTreeToken
      */
-    String printExpressionTreeToken (Token expTreeToken) {
+    static String printExpressionTreeToken (Token expTreeToken) {
         String returnString = "";
 
         if (expTreeToken instanceof OperatorToken) {
@@ -173,5 +173,6 @@ public class Token {
 
         return returnStack;
     }
+
 }
 

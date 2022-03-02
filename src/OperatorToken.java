@@ -102,6 +102,12 @@ public class OperatorToken extends Token {
                 return -1;
                 //break;
         }
+
+    }
+
+    @Override
+    public String toString() {
+        return Character.toString(operatorToken);
     }
 }
 

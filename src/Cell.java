@@ -53,6 +53,51 @@ public class Cell {
         return formula;
     }
 
+    /**
+     * This method evaluate the expression in the cell
+     * for example 5+17*3 = 56
+     * @param theStack (The stack containing the post fix version of the expression)
+     * @return (Double, the finalSolution)
+     */
+    public static double evaluateCell(Stack theStack) {
+        String[] myArray = theStack.toArray();
+        //Dummy array to store the last 2 number in the array
+        double[] lastTwoNumbers;
+
+        double solution = 0;
+
+        for (int i = 0; i < myArray.length ; i++) {
+            switch (myArray[i]) {
+                case ("/"):
+                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+                    solution = lastTwoNumbers[0] / lastTwoNumbers[1];
+                    myArray[i] = Double.toString(solution);
+                    break;
+
+                case ("*"):
+                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+                    solution = lastTwoNumbers[0] * lastTwoNumbers[1];
+                    myArray[i] = Double.toString(solution);
+                    break;
+
+                case ("+"):
+                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+                    solution = lastTwoNumbers[0] + lastTwoNumbers[1];
+                    myArray[i] = Double.toString(solution);
+                    break;
+
+                case ("-"):
+                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+                    solution = lastTwoNumbers[0] - lastTwoNumbers[1];
+                    myArray[i] = Double.toString(solution);
+                    break;
+            }
+        }
+
+
+        return solution;
+    }
+
 
 
 

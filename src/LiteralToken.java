@@ -7,4 +7,8 @@ public class LiteralToken extends Token {
         return litToken.value;
     }
 
+    @Override
+    public String toString() {
+        return Integer.toString(value);
+    }
 }

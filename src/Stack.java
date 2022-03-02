@@ -1,3 +1,7 @@
+import java.io.ObjectStreamException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * This class is a substitute for a Java.util.Stack.
  */
@@ -67,5 +71,50 @@ public class Stack {
     public String toString() {
         return myStack.toString();
     }
+
+    /**
+     * This function return a string array equivalent of myStack
+     * @return (Array equivalent of myStack)
+     */
+    public String[] toArray() {
+        Object[] myArray = myStack.toArray();
+        String[] stringArray = new String[myArray.length];
+        for (int i = 0; i < myArray.length; i++) {
+            stringArray[i] = myArray[i].toString();
+        }
+        return stringArray;
+    }
+
+    /**
+     * This method fetches the last two numbers in a given array,
+     * this method extracts the numbers from the given list and returns
+     * them in a list back to the user.
+     * @param theArray (myStack's array implementation)
+     * @param startingIndex (int, Starting Index)
+     * @return (int[], Array size 2 with the last 2 numbers)
+     */
+    public static double[] fetchLast2Values(String[] theArray, int startingIndex) {
+        //Array to hold the last 2 numbers
+        double[] numberArray = new double[2];
+        //Counter for the numberArray
+        int numberArrayCounter = 1;
+        //Make sure the operator get taken out of the array first
+        theArray[startingIndex] = "X";
+
+        for (int i = startingIndex-1; i >= 0 ; i--) {
+            if(!theArray[i].equals("X")) {
+                numberArray[numberArrayCounter] = Double.parseDouble(theArray[i]);
+                theArray[i] = "X";
+                numberArrayCounter--;
+                if(numberArrayCounter == -1) {break;}
+                //NOTE TO SELF, MAKE A CASE WHERE THE SECOND OR NO VALUES ARE FOUND
+            }
+        }
+        return numberArray;
+    }
+
+
 }
+
+//END
 
