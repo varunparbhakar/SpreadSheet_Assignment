@@ -36,14 +36,18 @@ public class Cell {
      * @param cell
      */
     public void addDependency (Cell cell)	{
-        dependsOn.add(cell);
+        if(cell != null) {
+            dependsOn.add(cell);
+        }return;
     }
 
     /**
      * adds a cell the feedsInto LinkedList
      */
     public void addFeedInto (Cell cell) {
-        feedsInto.add(cell);
+        if(cell != null)  {
+            feedsInto.add(cell);
+        } return;
     }
 
     public int getValue(){
@@ -54,6 +58,21 @@ public class Cell {
         return dependsOn.size();
     }
 
+    /**
+     * Get dependsOn
+     * @return dependsOn
+     */
+    public LinkedList<Cell> getDependsOn() {
+        return dependsOn;
+    }
+
+    /**
+     * Get getFeedsInto
+     * @return feedsInto
+     */
+    public LinkedList<Cell> getFeedsInto() {
+        return feedsInto;
+    }
 
 
     /*public void Evaluate (Spreadsheet spreadsheet) { //TODO DO WE NEED THIS???
