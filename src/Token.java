@@ -149,8 +149,8 @@ public class Token {
                     //TODO add try catch block in case the user enters a cell that is out of range
                     Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
                     Cell oldCell = theSpreadsheet.getCell(cellToken);
-                    newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
-                    oldCell.addDependency(newCell);
+//                    newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
+//                    oldCell.addDependency(newCell);
                     // place the cell reference on the output stack
                     returnStack.push(cToken);
                 }

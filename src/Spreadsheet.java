@@ -47,14 +47,20 @@ public class Spreadsheet {
      * print out all the values in the spreadsheet
      */
     public void printValues(){
+        String str;
+        printHeader();
+
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
-                System.out.print(number + ", ");
+                if(number != null) {
+                    str = String.format("%-6d|", number.getValue());
+                } else {
+                    str = String.format("%-6d|", 0);
+                }
+                System.out.format(str);
             }
             System.out.println();
-
         }
-
     }
 
     /**
@@ -62,13 +68,16 @@ public class Spreadsheet {
      * @param cellToken cell address that user want to change update new formula, ie. cell A1
      * @param expTreeTokenStack stack of token from expression of new formula
      */
-    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack, String formula){  //TODO
+    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack, String formula,
+                                                Spreadsheet theSpreadsheet){  //TODO
         //Create a new cell with formula string from user input
         //assign new cell to the cell token address
         //the current cell will be updated with new formula string
         Cell myCell = new Cell(formula);
         row = cellToken.getRow();
         col = cellToken.getColumn();
+//        System.out.println(CellToken.printCellToken(cellToken));;
+//        System.out.println(row + " " + col);
         spreadsheet[row][col] = myCell;
 
         //build expression tree from the stack
@@ -77,7 +86,8 @@ public class Spreadsheet {
 
         //Evaluate the expression tree
         //then Update value to the current cell
-        myCell.setValue(expressionTree.Evaluate());
+        int calculationResult = expressionTree.Evaluate(theSpreadsheet, cellToken);
+        myCell.setValue(calculationResult);
     }
 
     /**
@@ -97,9 +107,16 @@ public class Spreadsheet {
      * prints all the formulas for all the cells in the spreadsheet
      */
     public void printAllFormulas(){
+        String str;
+        printHeader();
         for (Cell[] rows : spreadsheet) {
             for (Cell number: rows) {
-                System.out.print(number + ", ");
+                if(number != null) {
+                    str = String.format("%-6s|", number.getFormula());
+                } else {
+                    str = String.format("%-6s|", null);
+                }
+                System.out.format(str);
             }
             System.out.println();
         }
@@ -110,9 +127,6 @@ public class Spreadsheet {
      * @throws CycleFoundException
      */
     public void topSort() throws CycleFoundException{       //TODO
-
-
-
     }
 
     //creating a new exception to handle when a cycle is found
@@ -120,6 +134,17 @@ public class Spreadsheet {
         public CycleFoundException(String message) {
             super(message);
         }
+    }
+
+    public void printHeader(){
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
+        for(int i = 0; i < spreadsheet.length; i++){
+            String str = String.format("%-8c", alphabet[i]);
+            System.out.format(str);
+        }
+
+        System.out.println();
     }
 
 }
