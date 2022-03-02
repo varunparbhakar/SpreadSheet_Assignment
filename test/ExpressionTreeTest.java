@@ -18,7 +18,13 @@ class ExpressionTreeTest {
 
     @Test
     void buildExpressionTree() {
-        Stack myTest = new Stack();
+        String myTestFormula = "15+75*7855";
+        Spreadsheet myTest = new Spreadsheet(4,4);
+        CellToken myToken = new CellToken();
+        Stack myTestStack = Token.getFormula(myTestFormula, myTest, myToken);
+
+        ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
+
 
     }
 

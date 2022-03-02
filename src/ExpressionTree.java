@@ -1,4 +1,5 @@
 public class ExpressionTree {
+
     private ExpressionTreeNode root;
 
     public void makeEmpty(){}

@@ -11,8 +11,7 @@ public class Stack {
     /**
      * Stack constructor.
      */
-    public Stack() {
-        myStack = new java.util.Stack();
+    public Stack() {myStack = new java.util.Stack();
     }
 
     /**
@@ -30,7 +29,7 @@ public class Stack {
     /**
      * Adds an item at the very top of  myStack.
      */
-    public void push(Object theObject) {myStack.push(theObject);}
+    public void push(Object theObject) { myStack.push(theObject);}
 
     /**
      * Removes and return the item at the top of myStack.

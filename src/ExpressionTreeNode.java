@@ -4,10 +4,12 @@ public class ExpressionTreeNode {
     ExpressionTreeNode right;
   
 
-    /*public ExpressionTreeNode(){
+    public ExpressionTreeNode(){
+        token = new Token();
         this.left = null;
         this.right = null;
-    }*/
+    }
+
   public ExpressionTreeNode(Token token, ExpressionTreeNode left, ExpressionTreeNode right) {
       this.token = token;
       this.left = left;
