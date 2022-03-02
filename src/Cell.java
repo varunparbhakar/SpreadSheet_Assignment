@@ -5,7 +5,6 @@ public class Cell {
     private int value;
     private LinkedList<Cell> dependsOn;       //the cells that this cell depends on
     private LinkedList<Cell> feedsInto;       //the cells that depend on this cell
-    private int dependencies;
 
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
@@ -14,7 +13,6 @@ public class Cell {
         formula = theValue;
         dependsOn = new LinkedList<>();
         feedsInto = new LinkedList<>();
-        dependencies = 0;
     }
 
     /**
@@ -51,12 +49,16 @@ public class Cell {
     public int getValue(){
         return value;
     }
-    public int getNumDependencies(){
-        return dependencies;
-    }
-    public void Evaluate (Spreadsheet spreadsheet) { //TODO
 
+    public int getNumDependencies(){
+        return dependsOn.size();
     }
+
+
+
+    /*public void Evaluate (Spreadsheet spreadsheet) { //TODO DO WE NEED THIS???
+
+    }*/
 
 
     public String getFormula() {

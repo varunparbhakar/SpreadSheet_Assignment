@@ -142,15 +142,15 @@ public class Token {
                 CellToken cToken = new CellToken();
                 index = CellToken.getCellToken(formula, index, cToken);
 
-                Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
-                Cell oldCell = theSpreadsheet.getCell(cellToken);
-                newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
-                oldCell.addDependency(newCell);
-
                 if (cToken.getRow() == CellToken.BadCell) {
                     error = true;
                     break;
                 } else {
+                    //TODO add try catch block in case the user enters a cell that is out of range
+                    Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
+                    Cell oldCell = theSpreadsheet.getCell(cellToken);
+                    newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
+                    oldCell.addDependency(newCell);
                     // place the cell reference on the output stack
                     returnStack.push(cToken);
                 }

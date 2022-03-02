@@ -85,7 +85,7 @@ public class ExpressionTree {
         }
         return result;
 
-    }  //TODO
+    }
 
     // Build an expression tree from a stack of ExpressionTreeTokens
     void BuildExpressionTree (Stack s) {
