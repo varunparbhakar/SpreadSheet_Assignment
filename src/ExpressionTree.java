@@ -2,7 +2,30 @@ public class ExpressionTree {
     private ExpressionTreeNode root;
 
     public void makeEmpty(){}
-    public void printTree(){}
+    /**
+     * Print the tree contents in sorted order.
+     */
+    public void printTree( )
+    {
+        if( root == null )
+            System.out.println( "Empty tree" );
+        else
+            printTree( root );
+    }
+
+    /**
+     * Internal method to print a subtree in sorted order.
+     * @param node the node that roots the tree.
+     */
+    private void printTree( ExpressionTreeNode node )
+    {
+        if( node != null )
+        {
+            printTree( node.left );
+            System.out.println( node.getToken().printExpressionTreeToken(node.getToken()) );
+            printTree( node.right );
+        }
+    }
 
     
     public ExpressionTree(ExpressionTreeNode root){
@@ -13,7 +36,56 @@ public class ExpressionTree {
         this.root = new ExpressionTreeNode();
     }*/
 
-    public int Evaluate(Spreadsheet spreadsheet) {return 0;}  //TODO
+    //public int Evaluate(Spreadsheet spreadsheet){}
+
+    /**
+     * Evaluate the expression of formula
+     * @return value after calculation
+     */
+    public int Evaluate(){
+
+        if( root == null ) {
+            return 0;
+        }
+        else {
+            return Evaluate(root);
+        }
+    }
+
+    /**
+     * Internal method for evaluate the formula
+     * @param node Node of Expression Tree
+     * @return value after calculation
+     */
+    private int Evaluate(ExpressionTreeNode node) {
+        int result = 0;
+        char operator = '0';
+        int literalToken = 0;
+
+        if(node != null) {
+            Token token = node.getToken();
+            if(token instanceof LiteralToken){
+                literalToken = LiteralToken.getValue((LiteralToken) token);
+                return literalToken;
+            }
+
+            if (token instanceof OperatorToken) {
+                operator = ((OperatorToken) token).getOperatorToken();
+
+                if (operator == '+') {
+                    result = Evaluate(node.left) + Evaluate(node.right);
+                } else if (operator == '-') {
+                    result = Evaluate(node.left) - Evaluate(node.right);
+                } else if (operator == '*') {
+                    result = Evaluate(node.left) * Evaluate(node.right);
+                } else if (operator == '/') {
+                    result = Evaluate(node.left) / Evaluate(node.right);
+                }
+            }
+        }
+        return result;
+
+    }  //TODO
 
     // Build an expression tree from a stack of ExpressionTreeTokens
     void BuildExpressionTree (Stack s) {

@@ -58,21 +58,26 @@ public class Spreadsheet {
     }
 
     /**
-     * The major use of his method is to update the tree
-     * @param cellToken
-     * @param expTreeTokenStack
+     * Update the formula and calculate the new value of the cell
+     * @param cellToken cell address that user want to change update new formula, ie. cell A1
+     * @param expTreeTokenStack stack of token from expression of new formula
      */
-    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack){  //TODO
-        /*
-         *Get String
-         * Get Formula
-         * Get Stack
-         * Build Expression
-         * Get Token
-         * Calculate
-         * Value
-         * Update links
-         */
+    public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack, String formula){  //TODO
+        //Create a new cell with formula string from user input
+        //assign new cell to the cell token address
+        //the current cell will be updated with new formula string
+        Cell myCell = new Cell(formula);
+        row = cellToken.getRow();
+        col = cellToken.getColumn();
+        spreadsheet[row][col] = myCell;
+
+        //build expression tree from the stack
+        ExpressionTree expressionTree = new ExpressionTree(null);
+        expressionTree.BuildExpressionTree(expTreeTokenStack);
+
+        //Evaluate the expression tree
+        //then Update value to the current cell
+        myCell.setValue(expressionTree.Evaluate());
     }
 
     /**

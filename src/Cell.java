@@ -17,6 +17,21 @@ public class Cell {
         dependencies = 0;
     }
 
+    /**
+     * Set value for cell
+     * @param value
+     */
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    /**
+     * Set the formula for cell
+     * @param formula
+     */
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
 
     /**
      * adds a cell to the dependsOn LinkedList
