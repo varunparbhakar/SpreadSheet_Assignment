@@ -116,7 +116,7 @@ public class SpreadsheetApp {
         */
 
         //changed this code - Add input formula
-        theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula);
+        theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
         System.out.println();
     }
 
@@ -125,36 +125,32 @@ public class SpreadsheetApp {
      * @param theSpreadsheet
      */
     private static void menuReadSpreadsheet(Spreadsheet theSpreadsheet){
+        CellToken cellToken = new CellToken();
+        Stack expTreeTokenStack;
+
         try {
-            File file = new File("textfile/spreadsheet.csv");
+            File file = new File("textfile/spreadsheet.txt");
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String line = "";
             String[] tempArr;
+            String inputFormula = null;
+            String inputCell = null;
             ArrayList<String> stringArrayList = new ArrayList<>();
 
-            //read csv file and insert item to Array List. Split by ","
+            //read txt file and add item into the spreadsheet
             while((line = br.readLine()) != null) {
-                tempArr = line.split(",");
-                for(String tempStr : tempArr) {
-                    if(tempStr.equals("")){
-                        stringArrayList.add(null);
-                    } else {
-                        stringArrayList.add(tempStr);
-                    }
+                tempArr = line.split(":");
+                inputCell = tempArr[0];
+                inputFormula = tempArr[1];
+                //print Array
+//                System.out.println(Arrays.toString(tempArr));
 
-                }
-            }
+                CellToken.getCellToken (inputCell, 0, cellToken);
 
-            //insert each element in the ArrayList to the Spread Sheet
-            int index = 0;
-            for(int i = 0; i < theSpreadsheet.getNumRows(); i++){
-                for(int j = 0; j < theSpreadsheet.getNumColumns(); j++){
-                    if(index < stringArrayList.size()) {
-                        theSpreadsheet.insertItem(i, j, stringArrayList.get(index));
-                        index++;
-                    }
-                }
+                expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
+                theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+
             }
 
             br.close();
