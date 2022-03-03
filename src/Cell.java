@@ -4,10 +4,9 @@ public class Cell {
     private String formula;
     private int value;
     private LinkedList<Cell> dependsOn;       //the cells that this cell depends on
-    private int dependsOnLength;
     private LinkedList<Cell> feedsInto;       //the cells that depend on this cell
-    private int feedsIntoLength;
-
+    private int topNum;
+    private int indegree;
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
 
@@ -25,6 +24,13 @@ public class Cell {
         this.value = value;
     }
 
+    public void setTopNum(int topNum){this.topNum = topNum;}
+
+    public int getTopNum(){return topNum;}
+
+    public int getIndegree(){return indegree;}
+
+    public void setIndegree(int indegree){this.indegree = indegree;}
     /**
      * Set the formula for cell
      * @param formula
@@ -40,7 +46,6 @@ public class Cell {
     public void addDependency (Cell cell)	{
         if(cell != null) {
             dependsOn.add(cell);
-            dependsOnLength++;
         }return;
     }
 
@@ -50,7 +55,6 @@ public class Cell {
     public void addFeedInto (Cell cell) {
         if(cell != null)  {
             feedsInto.add(cell);
-            feedsIntoLength++;
         } return;
     }
 
@@ -59,7 +63,7 @@ public class Cell {
     }
 
     public int getNumDependencies(){
-        return dependsOnLength;
+        return dependsOn.size();
     }
 
     /**
@@ -137,12 +141,4 @@ public class Cell {
 
         return solution;
     }
-
-
-
-
-
-
-
-
 }

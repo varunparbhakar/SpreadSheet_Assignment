@@ -7,6 +7,7 @@
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SpreadsheetApp {
 
@@ -88,7 +89,8 @@ public class SpreadsheetApp {
         // ExpressionTreeToken expTreeToken;
 
         System.out.println("Enter the cell to change: ");
-        inputCell = readString();
+        //UPDATE
+        inputCell = readString().toUpperCase();
         CellToken.getCellToken (inputCell, 0, cellToken);
 
         // error check to make sure the row and column
@@ -143,10 +145,20 @@ public class SpreadsheetApp {
                 tempArr = line.split(":");
                 inputCell = tempArr[0];
                 inputFormula = tempArr[1];
-                //print Array
-//                System.out.println(Arrays.toString(tempArr));
 
                 CellToken.getCellToken (inputCell, 0, cellToken);
+
+                //UPDATE
+                // error check to make sure the row and column
+                // are within spreadsheet array bounds.
+                if ((cellToken.getRow() < 0) ||
+                        (cellToken.getRow() >= theSpreadsheet.getNumRows()) ||
+                        (cellToken.getColumn() < 0) ||
+                        (cellToken.getColumn() >= theSpreadsheet.getNumColumns()) ) {
+
+                    System.out.println("Bad cell.");
+                    return;
+                }
 
                 expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
                 theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
@@ -185,7 +197,8 @@ public class SpreadsheetApp {
 
             System.out.println();
             System.out.println("Enter your command: ");
-            command = readString();
+            //UPDATE
+            command = readString().toLowerCase();
 
             // We care only about the first character of the string
             switch (command.charAt(0)) {
@@ -231,4 +244,3 @@ public class SpreadsheetApp {
     }
 
 }
-
