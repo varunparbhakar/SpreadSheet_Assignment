@@ -5,7 +5,8 @@ public class Cell {
     private int value;
     private LinkedList<Cell> dependsOn;       //the cells that this cell depends on
     private LinkedList<Cell> feedsInto;       //the cells that depend on this cell
-
+    private int topNum;
+    private int indegree;
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
 
@@ -23,6 +24,13 @@ public class Cell {
         this.value = value;
     }
 
+    public void setTopNum(int topNum){this.topNum = topNum;}
+
+    public int getTopNum(){return topNum;}
+
+    public int getIndegree(){return indegree;}
+
+    public void setIndegree(int indegree){this.indegree = indegree;}
     /**
      * Set the formula for cell
      * @param formula
@@ -133,12 +141,4 @@ public class Cell {
 
         return solution;
     }
-
-
-
-
-
-
-
-
 }
