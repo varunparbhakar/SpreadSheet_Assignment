@@ -47,10 +47,16 @@ public class Spreadsheet {
      * print out all the values in the spreadsheet
      */
     public void printValues(){
+        //UPDATE
         String str;
         printHeader();
+        int rowNumber = 0;
+        String rowString;
 
         for (Cell[] rows : spreadsheet) {
+            rowString = String.format("%-6s|", "Row " + rowNumber);
+            System.out.format(rowString);
+
             for (Cell number: rows) {
                 if(number != null) {
                     str = String.format("%-6d|", number.getValue());
@@ -60,6 +66,7 @@ public class Spreadsheet {
                 System.out.format(str);
             }
             System.out.println();
+            rowNumber++;
         }
     }
 
@@ -74,11 +81,11 @@ public class Spreadsheet {
         //assign new cell to the cell token address
         //the current cell will be updated with new formula string
         Cell myCell = new Cell(formula);
-        row = cellToken.getRow();
-        col = cellToken.getColumn();
-//        System.out.println(CellToken.printCellToken(cellToken));;
-//        System.out.println(row + " " + col);
-        spreadsheet[row][col] = myCell;
+
+        //UPDATE
+        int rowNumber = cellToken.getRow();
+        int colNumber = cellToken.getColumn();
+        spreadsheet[rowNumber][colNumber] = myCell;
 
         //build expression tree from the stack
         ExpressionTree expressionTree = new ExpressionTree(null);
@@ -107,18 +114,25 @@ public class Spreadsheet {
      * prints all the formulas for all the cells in the spreadsheet
      */
     public void printAllFormulas(){
+        //UPDATE
         String str;
         printHeader();
+        int rowNumber = 0;
+        String rowString;
+
         for (Cell[] rows : spreadsheet) {
+            rowString = String.format("%-6s|", "Row " + rowNumber);
+            System.out.format(rowString);
             for (Cell number: rows) {
                 if(number != null) {
                     str = String.format("%-6s|", number.getFormula());
                 } else {
-                    str = String.format("%-6s|", null);
+                    str = String.format("%-6s|", " ");
                 }
                 System.out.format(str);
             }
             System.out.println();
+            rowNumber++;
         }
     }
 
@@ -137,10 +151,10 @@ public class Spreadsheet {
     }
 
     public void printHeader(){
-        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
-        for(int i = 0; i < spreadsheet.length; i++){
-            String str = String.format("%-8c", alphabet[i]);
+        for(int i = 0; i <= spreadsheet.length; i++){
+            String str = String.format("%-7c", alphabet[i]);
             System.out.format(str);
         }
 
