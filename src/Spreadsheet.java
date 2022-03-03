@@ -127,6 +127,34 @@ public class Spreadsheet {
      * @throws CycleFoundException
      */
     public void topSort() throws CycleFoundException{       //TODO
+        Queue q = new Queue();
+        int counter = 0;
+        Cell c;
+
+        for(Cell[] cellRow: spreadsheet){       //accessing every Cell
+            for(Cell cell: cellRow){
+                if(cell.getNumDependencies() == 0){     //if there is no dependence add it to the queue
+                    q.enqueue(cell);
+                }
+            }
+        }
+
+        while(!q.isEmpty()){            //while there are still more cells
+            c = q.dequeue();
+            c.setTopNum(++counter);     //setting the order
+
+            for(Cell cell: c.getFeedsInto()){
+                cell.setIndegree(cell.getIndegree()-1);
+                if(cell.getIndegree() == 0){            //subtracting 1 from the indegree
+                    q.enqueue(cell);
+                }
+            }
+        }
+
+        if (counter != spreadsheet.length){
+            throw new CycleFoundException("Cycle found");
+        }
+
     }
 
     //creating a new exception to handle when a cycle is found
