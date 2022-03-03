@@ -2,7 +2,9 @@ public class ExpressionTree {
 
     private ExpressionTreeNode root;
 
-    public void makeEmpty(){}
+    public void makeEmpty(){
+        root = new ExpressionTreeNode();
+    }
     /**
      * Print the tree contents in sorted order.
      */
@@ -28,14 +30,14 @@ public class ExpressionTree {
         }
     }
 
-    
+
     public ExpressionTree(ExpressionTreeNode root){
         this.root = root;
     }
-  
-    /*public ExpressionTree() {
+
+    public ExpressionTree() {
         this.root = new ExpressionTreeNode();
-    }*/
+    }
 
     //public int Evaluate(Spreadsheet spreadsheet){}
 
@@ -146,6 +148,8 @@ public class ExpressionTree {
             return null;
         }
     }
+
+
 
 
 }

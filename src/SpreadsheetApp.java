@@ -162,10 +162,6 @@ public class SpreadsheetApp {
     public static void main(String[] args) {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
 
-        //Inserting the Items by Hand
-        theSpreadsheet.insertItem(0,0,"5+B2");
-        theSpreadsheet.insertItem(2,1,"73+24");
-
         boolean done = false;
         String command = "";
 
@@ -235,4 +231,3 @@ public class SpreadsheetApp {
     }
 
 }
-
