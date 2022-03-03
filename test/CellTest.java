@@ -3,13 +3,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
+    Cell myTestCell;
 
     @Test
     void addDependency() {
+        myTestCell = new Cell("23");
     }
 
     @Test
     void addFeedInto() {
+
     }
 
     @Test

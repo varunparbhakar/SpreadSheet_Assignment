@@ -4,7 +4,9 @@ public class Cell {
     private String formula;
     private int value;
     private LinkedList<Cell> dependsOn;       //the cells that this cell depends on
+    private int dependsOnLength;
     private LinkedList<Cell> feedsInto;       //the cells that depend on this cell
+    private int feedsIntoLength;
 
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
@@ -38,6 +40,7 @@ public class Cell {
     public void addDependency (Cell cell)	{
         if(cell != null) {
             dependsOn.add(cell);
+            dependsOnLength++;
         }return;
     }
 
@@ -47,6 +50,7 @@ public class Cell {
     public void addFeedInto (Cell cell) {
         if(cell != null)  {
             feedsInto.add(cell);
+            feedsIntoLength++;
         } return;
     }
 
@@ -55,7 +59,7 @@ public class Cell {
     }
 
     public int getNumDependencies(){
-        return dependsOn.size();
+        return dependsOnLength;
     }
 
     /**
