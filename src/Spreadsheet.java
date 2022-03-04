@@ -207,8 +207,9 @@ public class Spreadsheet {
 
         for(Cell[] cellRow: spreadsheet){       //accessing every Cell
             for(Cell cell: cellRow){
+                cell.setIndegree(cell.getNumDependencies());        //setting the indegrees
                 if(cell != null){
-                    if(cell.getNumDependencies() == 0){     //if there is no dependence add it to the queue
+                    if(cell.getIndegree() == 0){     //if there is no dependence add it to the queue
                         q.enqueue(cell);
                     } }
             }
