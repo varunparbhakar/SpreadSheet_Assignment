@@ -108,42 +108,16 @@ public class Cell {
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
-    public static double evaluateCell(Stack theStack) {
+    public static boolean validateCell(Stack theStack) {
         String[] myArray = theStack.toArray();
-        //Dummy array to store the last 2 number in the array
-        double[] lastTwoNumbers;
 
-        double solution = 0;
+        boolean validExpression = false;
 
         for (int i = 0; i < myArray.length ; i++) {
-            switch (myArray[i]) {
-                case ("/"):
-                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-                    solution = lastTwoNumbers[0] / lastTwoNumbers[1];
-                    myArray[i] = Double.toString(solution);
-                    break;
-
-                case ("*"):
-                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-                    solution = lastTwoNumbers[0] * lastTwoNumbers[1];
-                    myArray[i] = Double.toString(solution);
-                    break;
-
-                case ("+"):
-                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-                    solution = lastTwoNumbers[0] + lastTwoNumbers[1];
-                    myArray[i] = Double.toString(solution);
-                    break;
-
-                case ("-"):
-                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-                    solution = lastTwoNumbers[0] - lastTwoNumbers[1];
-                    myArray[i] = Double.toString(solution);
-                    break;
-            }
+            myArray[i].toString();
         }
 
 
-        return solution;
+        return validExpression;
     }
 }

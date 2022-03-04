@@ -89,9 +89,9 @@ public class Stack {
      * @param startingIndex (int, Starting Index)
      * @return (int[], Array size 2 with the last 2 numbers)
      */
-    public static double[] fetchLast2Values(String[] theArray, int startingIndex) {
+    public static Object[] fetchLast2Values(String[] theArray, int startingIndex) {
         //Array to hold the last 2 numbers
-        double[] numberArray = new double[2];
+        Object[] numberArray = new Object[2];
         //Counter for the numberArray
         int numberArrayCounter = 1;
         //Make sure the operator get taken out of the array first

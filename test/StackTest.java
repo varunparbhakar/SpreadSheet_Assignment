@@ -86,4 +86,13 @@ class StackTest {
         myTestStack.push(9954);
         assertEquals(myTestStack.size(), 3);
     }
+
+    @Test
+    void fetchLastTwoValues() {
+        myTestStack = new Stack();
+        myTestStack.push(42);
+        myTestStack.push(446);
+        myTestStack.push(9954);
+        assertEquals(myTestStack.size(), 3);
+    }
 }
