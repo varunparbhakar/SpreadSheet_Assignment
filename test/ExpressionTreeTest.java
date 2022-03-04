@@ -9,7 +9,7 @@ class ExpressionTreeTest {
     }
 
     @Test
-    void printTree() {
+    void printTree() throws IllegalAccessException {
         String myTestFormula = "920/32+52/1-788*43";
         Spreadsheet myTest = new Spreadsheet(4,4);
         CellToken myToken = new CellToken();
@@ -18,7 +18,7 @@ class ExpressionTreeTest {
 
         Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         System.out.println(myTestStack);
-        System.out.println(Cell.evaluateCell(myTestStack));
+        System.out.println(Cell.validateInputFormula(myTestStack));
 
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
         myTestTree.BuildExpressionTree(myTestStack);

@@ -108,52 +108,43 @@ public class Cell {
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
-    public static boolean evaluateCell(Stack theStack) {
+    public static boolean validateInputFormula(Stack theStack) throws IllegalAccessException {
         String[] myArray = theStack.toArray();
+
+//        Stack myStack = new Stack();
+//        myStack.push("2");
+//        myStack.push("8");
+//        myStack.push("/");
+//        myStack.push("9");
+//        myStack.push("/");
+//        myStack.push("3");
+//        myStack.push("*");
+//        myStack.push("4");
+//        myStack.push("-");
+//        String[] myArray = myStack.toArray();
+
         //Dummy array to store the last 2 number in the array
-        Object[] lastTwoNumbers;
         for (int i = 0; i < myArray.length; i++) {
             if(isLiteral(myArray[i].toString())
                     || isOperator(myArray[i].toString())
                     || isCellReference(myArray[i].toString())) {
-                System.out.println("This passed");
             }else {
-                System.out.println("There is something wrong");
+                System.out.println("Something wrong");
+                return false;
             }
         }
 
-        boolean validExpression = false;
-
-//        for (int i = 0; i < myArray.length ; i++) {
-//            switch (myArray[i]) {
-//                case ("/"):
-//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-//                    solution = (lastTwoNumbers[0].toString()) / lastTwoNumbers[1];
-//                    myArray[i] = Double.toString(solution);
-//                    break;
-//
-//                case ("*"):
-//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-//                    solution = lastTwoNumbers[0] * lastTwoNumbers[1];
-//                    myArray[i] = Double.toString(solution);
-//                    break;
-//
-//                case ("+"):
-//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-//                    solution = lastTwoNumbers[0] + lastTwoNumbers[1];
-//                    myArray[i] = Double.toString(solution);
-//                    break;
-//
-//                case ("-"):
-//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
-//                    solution = lastTwoNumbers[0] - lastTwoNumbers[1];
-//                    myArray[i] = Double.toString(solution);
-//                    break;
-//            }
-//        }
 
 
-        return validExpression;
+        for (int i = 0; i < myArray.length ; i++) {
+            if(isOperator(myArray[i])) {
+                if(!Stack.fetchLast2Values(myArray, i)) {
+                    throw new IllegalArgumentException("Two Values were not found");
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -222,3 +213,4 @@ public class Cell {
         return false;
     }
 }
+
