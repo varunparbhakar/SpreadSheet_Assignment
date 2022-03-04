@@ -243,13 +243,7 @@ public class SpreadsheetApp {
         ArrayList<Cell> sortedCellArray = new ArrayList<>();
         try {
             Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
-            /*for (Cell[] cRow : spreadsheet) {
-                for (Cell cell : cRow) {
-                    if(cell != null) {
-                        cell.setIndegree(cell.getNumDependencies());
-                    }
-                }
-            }*/
+
             theSpreadsheet.topSort();       //finding which order to evaluate the cells
 
             for (Cell[] cRow : spreadsheet) {
@@ -257,20 +251,13 @@ public class SpreadsheetApp {
                     sortedCellArray.add(cell);
                 }
             }
-            System.out.println("Sort Cell Array before sort " + sortedCellArray.toString());
 
-            //TODO ERROR HERE, SORTING IS NOT WORKING ALL THE WAY
             Collections.sort(sortedCellArray, new Comparator<Cell>() {
                 @Override
                 public int compare(Cell o1, Cell o2) {
                     return o1.getTopNum() - o2.getTopNum();
                 }
             });
-
-            //figure out why A1 is at the back of the list even tho it depends on 1 thing
-            Collections.reverse(sortedCellArray);
-            System.out.println("Sort Cell Array after reverse " + sortedCellArray.toString());
-            System.out.println();
 
         } catch (Spreadsheet.CycleFoundException ioe) {
             ioe.printStackTrace();
@@ -287,9 +274,6 @@ public class SpreadsheetApp {
     private static void recalculateSpreadsheet(Spreadsheet theSpreadsheet) throws Spreadsheet.CycleFoundException {
         ArrayList<Cell> sortedCellArray = topSortDependency(theSpreadsheet);
         CellToken cellToken = new CellToken();
-
-        //TODO ERROR HERE, SORTED ARRAY NOT ALL THE WAY SORTED
-
 
         //call evaluate method for each of the cells in the arrayList
 
