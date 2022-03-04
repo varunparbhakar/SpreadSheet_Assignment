@@ -7,6 +7,7 @@
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class SpreadsheetApp {
@@ -93,6 +94,8 @@ public class SpreadsheetApp {
         inputCell = readString().toUpperCase();
         CellToken.getCellToken (inputCell, 0, cellToken);
 
+
+
         // error check to make sure the row and column
         // are within spreadsheet array bounds.
         if ((cellToken.getRow() < 0) ||
@@ -106,6 +109,22 @@ public class SpreadsheetApp {
 
         System.out.println("Enter the cell's new formula: ");
         inputFormula = readString();
+
+        Cell cell = theSpreadsheet.getCell(cellToken); //resetting dependencies
+        cell.setFormula(inputFormula);
+        LinkedList<Cell> list = cell.getDependsOn();
+        for(Cell c: list) {             //removing changed cell from feedsInto of other cells
+            LinkedList<Cell> feedsList = c.getFeedsInto();
+            for(Cell c2: feedsList){
+                if(c2.equals(cell)){
+                    feedsList.remove(c2);
+                }
+            }
+
+        }
+        cell.clearDependencies();
+
+
         expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
         /*
         // This code prints out the expression stack from

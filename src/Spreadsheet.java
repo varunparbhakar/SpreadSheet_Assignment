@@ -76,7 +76,7 @@ public class Spreadsheet {
      * @param expTreeTokenStack stack of token from expression of new formula
      */
     public void changeCellFormulaAndRecalculate(CellToken cellToken, Stack expTreeTokenStack, String formula,
-                                                Spreadsheet theSpreadsheet){  //TODO
+                                                Spreadsheet theSpreadsheet){
         //Create a new cell with formula string from user input
         //assign new cell to the cell token address
         //the current cell will be updated with new formula string
@@ -140,7 +140,7 @@ public class Spreadsheet {
      * sorts the cells in the spreadsheet in topological order and evaluates the cells values while the sorting is occurring
      * @throws CycleFoundException
      */
-    public void topSort() throws CycleFoundException{       //TODO
+    public void topSort() throws CycleFoundException{
         Queue q = new Queue();
         int counter = 0;
         Cell c;
@@ -158,8 +158,8 @@ public class Spreadsheet {
             c.setTopNum(++counter);     //setting the order
 
             for(Cell cell: c.getFeedsInto()){
-                cell.setIndegree(cell.getIndegree()-1);
-                if(cell.getIndegree() == 0){            //subtracting 1 from the indegree
+                cell.setIndegree(cell.getIndegree()-1);  //subtracting 1 from the indegree
+                if(cell.getIndegree() == 0){               //if no more dependencies add to queue
                     q.enqueue(cell);
                 }
             }
@@ -168,7 +168,6 @@ public class Spreadsheet {
         if (counter != spreadsheet.length){
             throw new CycleFoundException("Cycle found");
         }
-
 
     }
 

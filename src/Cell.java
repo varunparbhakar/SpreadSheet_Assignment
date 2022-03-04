@@ -58,6 +58,10 @@ public class Cell {
         } return;
     }
 
+    public void clearDependencies(){
+        dependsOn.removeAll(dependsOn);
+    }
+
     public int getValue(){
         return value;
     }
@@ -96,6 +100,7 @@ public class Cell {
     public String toString() {
         return formula;
     }
+
 
     /**
      * This method evaluate the expression in the cell
