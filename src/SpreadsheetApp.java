@@ -103,12 +103,6 @@ public class SpreadsheetApp {
         System.out.println("Enter the cell's new formula: ");
         inputFormula = readString().toUpperCase();
 
-        //Print the value of spreadsheet before reevaluation
-        System.out.println("Spreadsheet before reevaluation ");
-        menuPrintAllFormulas(theSpreadsheet);
-        menuPrintValues(theSpreadsheet);
-        System.out.println();
-
         //reset dependencies if cell token is not null
         if (cellToken != null) {
             resettingDependencies(theSpreadsheet, cellToken, inputFormula);
@@ -123,12 +117,6 @@ public class SpreadsheetApp {
 
         //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
-
-        //Print the value of spreadsheet after reevaluation
-        System.out.println("Spreadsheet after reevaluation ");
-        menuPrintAllFormulas(theSpreadsheet);
-        menuPrintValues(theSpreadsheet);
-        System.out.println();
 
         /*
         // This code prints out the expression stack from
@@ -185,6 +173,9 @@ public class SpreadsheetApp {
 
                 //Creat a stack of expression from the formula
                 expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
+                ExpressionTree expressionTree = new ExpressionTree(null);
+                expressionTree.BuildExpressionTree(expTreeTokenStack);
+                currentCell.setExpressionTree(expressionTree);
 
                 //Create a new cell from the token with value, formula and dependency
                 //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
@@ -274,6 +265,7 @@ public class SpreadsheetApp {
     private static void recalculateSpreadsheet(Spreadsheet theSpreadsheet) throws Spreadsheet.CycleFoundException {
         ArrayList<Cell> sortedCellArray = topSortDependency(theSpreadsheet);
         CellToken cellToken = new CellToken();
+        Stack expTreeTokenStack;
 
         //call evaluate method for each of the cells in the arrayList
 
@@ -282,14 +274,15 @@ public class SpreadsheetApp {
             String formula = cell.getFormula();
 
             //Make a stack of expression
-            Stack expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
+            //Stack expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
+
+            //expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
 
             //Build expression tree from the stack of expression
-            ExpressionTree expressionTree = new ExpressionTree(null);
-            expressionTree.BuildExpressionTree(expTreeTokenStack);
+
 
             //Evaluate the expression tree then Update value to the current cell
-            int calculationResult = expressionTree.Evaluate(theSpreadsheet);
+            int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
             cell.setValue(calculationResult);
         }
 
