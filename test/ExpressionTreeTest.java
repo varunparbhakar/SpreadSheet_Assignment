@@ -13,7 +13,10 @@ class ExpressionTreeTest {
         String myTestFormula = "920/32+52/1-788*43";
         Spreadsheet myTest = new Spreadsheet(4,4);
         CellToken myToken = new CellToken();
-        Stack myTestStack = Token.getFormula(myTestFormula, myTest, myToken);
+        //Create cell from cell token
+        Cell currentCell = myTest.getCellValue(myToken);
+
+        Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         System.out.println(myTestStack);
         System.out.println(Cell.evaluateCell(myTestStack));
 
@@ -30,7 +33,7 @@ class ExpressionTreeTest {
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
         myTestTree.BuildExpressionTree(myStack);
 
-        assertEquals( 35, myTestTree.Evaluate(new Spreadsheet(4), new CellToken()));
+        assertEquals( 35, myTestTree.Evaluate(new Spreadsheet(4)));
     }
 
     @Test
@@ -40,7 +43,7 @@ class ExpressionTreeTest {
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
         myTestTree.BuildExpressionTree(myStack);
 
-        assertEquals( -11, myTestTree.Evaluate(new Spreadsheet(4), new CellToken()));
+        assertEquals( -11, myTestTree.Evaluate(new Spreadsheet(4)));
     }
 
     @Test
@@ -50,7 +53,7 @@ class ExpressionTreeTest {
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
         myTestTree.BuildExpressionTree(myStack);
 
-        assertEquals( 6, myTestTree.Evaluate(new Spreadsheet(4), new CellToken()));
+        assertEquals( 6, myTestTree.Evaluate(new Spreadsheet(4)));
     }
 
     @Test
@@ -58,7 +61,10 @@ class ExpressionTreeTest {
         String myTestFormula = "15+4*2/43-2";
         Spreadsheet myTest = new Spreadsheet(4,4);
         CellToken myToken = new CellToken();
-        Stack myTestStack = Token.getFormula(myTestFormula, myTest, myToken);
+
+        //Create cell from cell token
+        Cell currentCell = myTest.getCellValue(myToken);
+        Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         System.out.println(myTestStack);
 
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
@@ -75,7 +81,9 @@ class ExpressionTreeTest {
         String myTestFormula = theFormula;
         Spreadsheet myTest = new Spreadsheet(4,4);
         CellToken myToken = new CellToken();
-        Stack myTestStack = Token.getFormula(myTestFormula, myTest, myToken);
+        //Create cell from cell token
+        Cell currentCell = myTest.getCellValue(myToken);
+        Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         return myTestStack;
     }
 }
