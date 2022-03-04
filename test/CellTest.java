@@ -127,4 +127,40 @@ class CellTest {
         Cell myTestCell = new Cell("00");
         assertFalse(myTestCell.isCellReference(literalString));
     }
+
+    @Test
+    void isOperator() {
+        String operatorString = "+";
+        assertTrue(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator2() {
+        String operatorString = "-";
+        assertTrue(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator3() {
+        String operatorString = "*";
+        assertTrue(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator4() {
+        String operatorString = "/";
+        assertTrue(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator5() {
+        String operatorString = ")";
+        assertFalse(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator6() {
+        String operatorString = ".";
+        assertFalse(myTestCell.isOperator(operatorString));
+    }
+    @Test
+    void isOperator7() {
+        String operatorString = "'";
+        assertFalse(myTestCell.isOperator(operatorString));
+    }
 }
