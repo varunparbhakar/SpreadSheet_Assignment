@@ -263,7 +263,7 @@ public class Spreadsheet {
 
     }
 
-    //creating a new exception to handle when a cycle is found
+    //creating a new exception to handle when a cycle is found.
     class CycleFoundException extends  Exception{
         public CycleFoundException(String message) {
             super(message);
