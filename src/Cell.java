@@ -153,12 +153,22 @@ public class Cell {
      * @return (Boolean, literal or not)
      */
     public boolean isLiteral(String theLiteral) {
-        int asciiValue;
-        for (int i = 0; i < theLiteral.length(); i++) {
-            asciiValue = theLiteral.charAt(i);
-            // If ASCII value < 0 || > 9 // Then return false;
-            if(asciiValue < 48 || asciiValue > 57) {
-                return false;
+        int asciiValue = theLiteral.charAt(0);
+        if(asciiValue == 45) {
+            for (int i = 1; i < theLiteral.length(); i++) {
+                asciiValue = theLiteral.charAt(i);
+                // If ASCII value < 0 || > 9 // Then return false;
+                if(asciiValue < 48 || asciiValue > 57) {
+                    return false;
+                }
+            }
+        } else {
+            for (int i = 0; i < theLiteral.length(); i++) {
+                asciiValue = theLiteral.charAt(i);
+                // If ASCII value < 0 || > 9 // Then return false;
+                if(asciiValue < 48 || asciiValue > 57) {
+                    return false;
+                }
             }
         }
         return true;
@@ -172,17 +182,18 @@ public class Cell {
     public boolean isCellReference(String theReference) {
         int asciiValue = theReference.charAt(0);
         //Checking for the first alphabetCharacter
-        if(asciiValue <65 || asciiValue > 90) {
-            return false;
-        }
-        //Checking for the numbers that follow the Alphabet reference
-        for (int i = 1; i < theReference.length(); i++) {
-            asciiValue = theReference.charAt(i);
-            // If ASCII value < 0 || > 9 // Then return false;
-            if(asciiValue < 48 || asciiValue > 57) {
-                return false;
+        if((asciiValue >= 65 && asciiValue <= 90) || (asciiValue >= 97 && asciiValue <= 122) ){
+            //Checking for the numbers that follow the Alphabet reference
+            for (int i = 1; i < theReference.length(); i++) {
+                asciiValue = theReference.charAt(i);
+                // If ASCII value < 0 || > 9 // Then return false;
+                if(asciiValue < 48 || asciiValue > 57) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+
+        return false;
     }
 }
