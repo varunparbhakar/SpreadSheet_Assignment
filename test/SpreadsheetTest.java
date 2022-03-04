@@ -38,7 +38,7 @@ class SpreadsheetTest {
         theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
 
         Cell myCell = new Cell(inputFormula);
-        myCell = theSpreadsheet.getCell(cellToken);
+        myCell = theSpreadsheet.getCellValue(cellToken);
 
         String cellFormula = myCell.getFormula();
         int cellValue = myCell.getValue();

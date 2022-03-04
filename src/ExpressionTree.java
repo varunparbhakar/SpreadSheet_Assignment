@@ -82,8 +82,8 @@ public class ExpressionTree {
             if(token instanceof CellToken){
                 cellTokenInExpression = (CellToken) token; // A3 + 4
 
-                currentCell = spreadsheet.getCell(currentCellToken); // A1
-                cellInExpression = spreadsheet.getCell(cellTokenInExpression); // A3
+                currentCell = spreadsheet.getCellValue(currentCellToken); // A1
+                cellInExpression = spreadsheet.getCellValue(cellTokenInExpression); // A3
 
                 currentCell.addDependency(cellInExpression); //A1 add dependency cell A3
                 cellInExpression.addFeedInto(currentCell); // A3 add feed into cell A1
