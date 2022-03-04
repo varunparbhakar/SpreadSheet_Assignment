@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.util.LinkedList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -30,15 +31,10 @@ public class Spreadsheet {
         return spreadsheet[cToken.getRow()][cToken.getColumn()];
     }
 
-    /**
-     * Inserts an item into a specified place in the spreadsheet
-     * @param theRow
-     * @param theColumn
-     * @param theValue (String, The formula)
-     */
-    public void insertItem (int theRow, int theColumn, String theValue) {
+    public Cell insertItem (int theRow, int theColumn, String theValue) {
         Cell myCell = new Cell(theValue);
         spreadsheet[theRow][theColumn] = myCell;
+        return myCell;
     }
 
     public int getNumRows() {
@@ -61,10 +57,33 @@ public class Spreadsheet {
      //* @param expTreeTokenStack stack of expression from the formula
      */
     public void creatCell(CellToken cellToken, String formula){
-        Cell currentCell = new Cell(formula);
         int rowNumber = cellToken.getRow();
         int colNumber = cellToken.getColumn();
-        spreadsheet[rowNumber][colNumber] = currentCell;
+        //if this is not null, then we know it was already created before because another cell depends on it
+        if(spreadsheet[rowNumber][colNumber] != null){
+            LinkedList<Cell> feedsList = spreadsheet[rowNumber][colNumber].getFeedsInto();
+            for(Cell cell: feedsList){
+                cell.clearDependencies();
+            }
+
+
+            Cell currentCell = new Cell(formula);
+            spreadsheet[rowNumber][colNumber] = currentCell;
+
+            //adding new dependencies
+            for(Cell cell: feedsList){
+                spreadsheet[rowNumber][colNumber].addFeedInto(cell);
+                cell.addDependency(currentCell);
+            }
+
+
+
+        }else{
+            Cell currentCell = new Cell(formula);
+            spreadsheet[rowNumber][colNumber] = currentCell;
+        }
+
+
 
 //        //Add dependencies
 //        Cell newCell = new Cell(formula);
@@ -130,11 +149,12 @@ public class Spreadsheet {
         //build expression tree from the stack
         ExpressionTree expressionTree = new ExpressionTree(null);
         expressionTree.BuildExpressionTree(expTreeTokenStack);
+        myCell.setExpressionTree(expressionTree);
 
         //Evaluate the expression tree
         //then Update value to the current cell
-        int calculationResult = expressionTree.Evaluate(theSpreadsheet);
-        myCell.setValue(calculationResult);
+//        int calculationResult = expressionTree.Evaluate(theSpreadsheet);
+//        myCell.setValue(calculationResult);
     }
 
     /**

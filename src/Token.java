@@ -152,8 +152,11 @@ public class Token {
                         currentCell = new Cell("");     //creating an empty cell
                     }
                     if(newCell == null){
-                        newCell = new Cell("");
-                    }
+                        //newCell = new Cell("");
+                        newCell = theSpreadsheet.insertItem(cToken.getRow(), cToken.getColumn(), "");
+                    }/*else{
+                        newCell = theSpreadsheet.insertItem(cToken.getRow(), cToken.getColumn(), newCell.getFormula());
+                    }*/
                     newCell.addFeedInto(currentCell);       //adding to the different dependency graph
                     currentCell.addDependency(newCell);
 

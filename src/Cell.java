@@ -31,6 +31,11 @@ public class Cell {
     public int getIndegree(){return indegree;}
 
     public void setIndegree(int indegree){this.indegree = indegree;}
+
+
+    public ExpressionTree getExpressionTree(){return expressionTree;}
+
+    public void setExpressionTree(ExpressionTree expressionTree){this.expressionTree = expressionTree;}
     /**
      * Set the formula for cell
      * @param formula
