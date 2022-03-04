@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
-    Cell myTestCell;
+    Cell myTestCell = new Cell("45");
 
     @Test
     void addDependency() {
@@ -34,10 +34,12 @@ class CellTest {
     @Test
     void testToString() {
     }
-
     @Test
-    void evaluateCell() {
+    void test() {
+        boolean s = myTestCell.isLiteral("42");
+        System.out.println(s);
     }
+
     @Test
     void isLiteralTest() {
         String literalString = "57";
@@ -68,6 +70,8 @@ class CellTest {
     void isLiteralTest5() {
         String literalString = ":";
         Cell myTestCell = new Cell("00");
+        boolean s = myTestCell.isLiteral("45");
+        System.out.println(s);
         assertFalse(myTestCell.isLiteral(literalString));
     }
     @Test
