@@ -52,9 +52,9 @@ public class Spreadsheet {
      * Create a new cell, add formula, add dependencies
      * @param cellToken cell token of the new cell
      * @param formula formula input from the new cell
-     * @param expTreeTokenStack stack of expression from the formula
+     //* @param expTreeTokenStack stack of expression from the formula
      */
-    public void creatCell(CellToken cellToken, String formula, Stack expTreeTokenStack){
+    public void creatCell(CellToken cellToken, String formula){
         Cell currentCell = new Cell(formula);
         int rowNumber = cellToken.getRow();
         int colNumber = cellToken.getColumn();

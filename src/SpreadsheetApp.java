@@ -179,7 +179,7 @@ public class SpreadsheetApp {
 
                 //Error check to make sure the row and column are within spreadsheet array bounds.
                 checkCellBound(theSpreadsheet, cellToken);
-
+                theSpreadsheet.creatCell(cellToken, inputFormula);
                 //Create cell from cell token
                 Cell currentCell = theSpreadsheet.getCellValue(cellToken);
 
@@ -189,7 +189,7 @@ public class SpreadsheetApp {
                 //Create a new cell from the token with value, formula and dependency
                 //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
 
-                theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+                //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
             }
 
             //recalculate whole spreadsheet
@@ -243,13 +243,13 @@ public class SpreadsheetApp {
         ArrayList<Cell> sortedCellArray = new ArrayList<>();
         try {
             Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
-            for (Cell[] cRow : spreadsheet) {
+            /*for (Cell[] cRow : spreadsheet) {
                 for (Cell cell : cRow) {
                     if(cell != null) {
                         cell.setIndegree(cell.getNumDependencies());
                     }
                 }
-            }
+            }*/
             theSpreadsheet.topSort();       //finding which order to evaluate the cells
 
             for (Cell[] cRow : spreadsheet) {
@@ -259,6 +259,7 @@ public class SpreadsheetApp {
             }
             System.out.println("Sort Cell Array before sort " + sortedCellArray.toString());
 
+            //TODO ERROR HERE, SORTING IS NOT WORKING ALL THE WAY
             Collections.sort(sortedCellArray, new Comparator<Cell>() {
                 @Override
                 public int compare(Cell o1, Cell o2) {
@@ -287,9 +288,28 @@ public class SpreadsheetApp {
         ArrayList<Cell> sortedCellArray = topSortDependency(theSpreadsheet);
         CellToken cellToken = new CellToken();
 
+        //TODO ERROR HERE, SORTED ARRAY NOT ALL THE WAY SORTED
+
+
         //call evaluate method for each of the cells in the arrayList
+
         Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
-        for (Cell cellArray : sortedCellArray) {
+        for(Cell cell: sortedCellArray){
+            String formula = cell.getFormula();
+
+            //Make a stack of expression
+            Stack expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
+
+            //Build expression tree from the stack of expression
+            ExpressionTree expressionTree = new ExpressionTree(null);
+            expressionTree.BuildExpressionTree(expTreeTokenStack);
+
+            //Evaluate the expression tree then Update value to the current cell
+            int calculationResult = expressionTree.Evaluate(theSpreadsheet);
+            cell.setValue(calculationResult);
+        }
+
+        /*for (Cell cellArray : sortedCellArray) {
             for (Cell[] cRow : spreadsheet) {
                 for (Cell cell : cRow) {
                     String formulaOfCellSpreadsheet = cell.getFormula();
@@ -311,7 +331,7 @@ public class SpreadsheetApp {
                     }
                 }
             }
-        }
+        }*/
 
     }
 
