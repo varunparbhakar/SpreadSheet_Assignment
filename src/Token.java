@@ -146,13 +146,25 @@ public class Token {
                     error = true;
                     break;
                 } else {
-                    Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
-                    Cell oldCell = theSpreadsheet.getCell(cellToken);
+                    Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
+                    Cell oldCell = theSpreadsheet.getCellValue(cellToken);
+
+                    if(oldCell == null) {
+                        oldCell = new Cell("");     //creating an empty cell
+                    }
+                    if(newCell == null){
+                        newCell = new Cell("");
+                    }
+                    newCell.addFeedInto(oldCell);       //adding to the different dependency graph
+                    oldCell.addDependency(newCell);
+
+                    /*Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
+                    Cell oldCell = theSpreadsheet.getCellValue(cellToken);
                     newCell.addFeedInto(oldCell);       //adding to the different dependency graph
                     if(oldCell == null){
                         oldCell = new Cell("");     //creating an empty cell
                     }
-                    oldCell.addDependency(newCell);
+                    oldCell.addDependency(newCell);*/
 
                     // place the cell reference on the output stack
                     returnStack.push(cToken);

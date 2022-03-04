@@ -6,9 +6,7 @@
  */
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Locale;
+import java.util.*;
 
 public class SpreadsheetApp {
 
@@ -110,7 +108,7 @@ public class SpreadsheetApp {
         System.out.println("Enter the cell's new formula: ");
         inputFormula = readString();
 
-        Cell cell = theSpreadsheet.getCell(cellToken); //resetting dependencies
+        Cell cell = theSpreadsheet.getCellValue(cellToken); //resetting dependencies
         cell.setFormula(inputFormula);
         LinkedList<Cell> list = cell.getDependsOn();
         for(Cell c: list) {             //removing changed cell from feedsInto of other cells
@@ -178,17 +176,49 @@ public class SpreadsheetApp {
                     System.out.println("Bad cell.");
                     return;
                 }
-
+                theSpreadsheet.creatCell(cellToken, inputFormula);
                 expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
-                theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+
+
+                //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
 
             }
 
+            Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
+            for(Cell[] cRow: spreadsheet){
+                for(Cell cell: cRow){
+                    cell.setIndegree(cell.getNumDependencies());
+                }
+            }
+            theSpreadsheet.topSort();       //finding which order to evaluate the cells
+
+            ArrayList<Cell> allCells = new ArrayList<>();
+            for(Cell[] cRow: spreadsheet){
+                for(Cell cell: cRow){
+                    allCells.add(cell);
+                }
+            }
+
+            Collections.sort(allCells, new Comparator<Cell>() {
+                @Override
+                public int compare(Cell o1, Cell o2) {
+                    return o1.getTopNum() - o2.getTopNum();
+                }
+            });
+
+
+            //figure out why A1 is at the back of the list even tho it depends on 1 thing
+
+            Collections.reverse(allCells);
+
+            //call evaluate method for each of the cells in the arrayList
+
             br.close();
-        } catch(IOException ioe) {
+        } catch(IOException | Spreadsheet.CycleFoundException ioe){
             ioe.printStackTrace();
         }
     }
+
 
     public static void main(String[] args) {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols

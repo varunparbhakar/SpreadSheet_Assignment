@@ -20,7 +20,7 @@ public class Spreadsheet {
      * @param cToken
      * @return
      */
-    public Cell getCell(CellToken cToken){
+    public Cell getCellValue(CellToken cToken){
         return spreadsheet[cToken.getRow()][cToken.getColumn()];
     }
 
@@ -42,6 +42,9 @@ public class Spreadsheet {
     public int getNumColumns() {
         return col;
     }
+
+    public Cell[][] getSpreadsheet(){return spreadsheet;}
+
 
     /**
      * print out all the values in the spreadsheet
@@ -70,6 +73,12 @@ public class Spreadsheet {
         }
     }
 
+    public void creatCell(CellToken cellToken, String formula){
+        Cell myCell = new Cell(formula);
+        int rowNumber = cellToken.getRow();
+        int colNumber = cellToken.getColumn();
+        spreadsheet[rowNumber][colNumber] = myCell;
+    }
     /**
      * Update the formula and calculate the new value of the cell
      * @param cellToken cell address that user want to change update new formula, ie. cell A1
@@ -141,6 +150,7 @@ public class Spreadsheet {
      * @throws CycleFoundException
      */
     public void topSort() throws CycleFoundException{
+
         Queue q = new Queue();
         int counter = 0;
         Cell c;
@@ -155,7 +165,7 @@ public class Spreadsheet {
 
         while(!q.isEmpty()){            //while there are still more cells
             c = q.dequeue();
-            c.setTopNum(++counter);     //setting the order
+            c.setTopNum(++counter);     //setting the order, 1 is smallest topNum
 
             for(Cell cell: c.getFeedsInto()){
                 cell.setIndegree(cell.getIndegree()-1);  //subtracting 1 from the indegree
@@ -165,9 +175,9 @@ public class Spreadsheet {
             }
         }
 
-        if (counter != spreadsheet.length){
+        /*if (counter != spreadsheet.length){
             throw new CycleFoundException("Cycle found");
-        }
+        }*/
 
     }
 
