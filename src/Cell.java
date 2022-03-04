@@ -175,9 +175,9 @@ public class Cell {
     }
 
     /**
-     * Checks to see if the string is a literal.
+     * Checks to see if the string is a reference.
      * @param theReference (String, Value)
-     * @return (Boolean, literal or not)
+     * @return (Boolean, reference or not)
      */
     public boolean isCellReference(String theReference) {
         int asciiValue = theReference.charAt(0);
@@ -193,6 +193,22 @@ public class Cell {
             }
             return true;
         }
+
+        return false;
+    }
+    /**
+     * Checks to see if the string is a Operator.
+     * @param theReference (String, Value)
+     * @return (Boolean, operator or not)
+     */
+    public boolean isOperator(String theReference) {
+        int asciiValue = theReference.charAt(0);
+        if(theReference.length() == 1) {
+            if(asciiValue == 42 || asciiValue == 43 || asciiValue == 45 ||asciiValue == 47) {
+                return true;
+            }
+        }
+
 
         return false;
     }
