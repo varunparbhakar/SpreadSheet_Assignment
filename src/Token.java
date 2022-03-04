@@ -146,11 +146,14 @@ public class Token {
                     error = true;
                     break;
                 } else {
-                    //TODO add try catch block in case the user enters a cell that is out of range
                     Cell newCell = theSpreadsheet.getCell(cToken);     //getting the cell corresponding to the cellToken
                     Cell oldCell = theSpreadsheet.getCell(cellToken);
-                    newCell.addFeedInto(oldCell);                       //adding to the different dependency graphs
+                    newCell.addFeedInto(oldCell);       //adding to the different dependency graph
+                    if(oldCell == null){
+                        oldCell = new Cell("");     //creating an empty cell
+                    }
                     oldCell.addDependency(newCell);
+
                     // place the cell reference on the output stack
                     returnStack.push(cToken);
                 }
