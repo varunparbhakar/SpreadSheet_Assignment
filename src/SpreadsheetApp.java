@@ -101,7 +101,7 @@ public class SpreadsheetApp {
         checkCellBound(theSpreadsheet, cellToken);
 
         System.out.println("Enter the cell's new formula: ");
-        inputFormula = readString();
+        inputFormula = readString().toUpperCase();
 
         //Print the value of spreadsheet before reevaluation
         System.out.println("Spreadsheet before reevaluation ");
@@ -121,6 +121,7 @@ public class SpreadsheetApp {
         expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
         theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
 
+        //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
 
         //Print the value of spreadsheet after reevaluation
@@ -191,8 +192,11 @@ public class SpreadsheetApp {
                 theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
             }
 
+            //recalculate whole spreadsheet
+            recalculateSpreadsheet(theSpreadsheet);
+
             br.close();
-        } catch (IOException ioe) {
+        } catch (IOException | Spreadsheet.CycleFoundException ioe) {
             ioe.printStackTrace();
         }
     }

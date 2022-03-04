@@ -108,7 +108,7 @@ public class Cell {
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
-    public static boolean validateCell(Stack theStack) {
+    public static boolean evaluateCell(Stack theStack) {
         String[] myArray = theStack.toArray();
 
         boolean validExpression = false;
