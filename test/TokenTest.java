@@ -16,7 +16,9 @@ class TokenTest {
         String myTestFormula = "15+75*7855";
         Spreadsheet myTest = new Spreadsheet(4,4);
         CellToken myToken = new CellToken();
-        Stack myTestStack = Token.getFormula(myTestFormula, myTest, myToken);
+        //Create cell from cell token
+        Cell currentCell = myTest.getCellValue(myToken);
+        Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         System.out.println(myTestStack);
         assertEquals("[15, 75, 7855, *, +]", myTestStack.toString());
 

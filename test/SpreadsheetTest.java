@@ -34,7 +34,11 @@ class SpreadsheetTest {
         CellToken.getCellToken ("A1", 0, cellToken);
 
         String inputFormula = "12/3+3";
-        expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, cellToken);
+
+        //Create cell from cell token
+        Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+
+        expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
         theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
 
         Cell myCell = new Cell(inputFormula);

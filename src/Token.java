@@ -42,7 +42,7 @@ public class Token {
      *
      * This algorithm follows the algorithm described in Weiss, pages 105-108.
      */
-    public static Stack getFormula(String formula, Spreadsheet theSpreadsheet, CellToken cellToken) {
+    public static Stack getFormula(String formula, Spreadsheet theSpreadsheet, Cell currentCell) {
         Stack returnStack = new Stack();  // stack of Tokens (representing a postfix expression)
         boolean error = false;
         char ch = ' ';
@@ -147,16 +147,15 @@ public class Token {
                     break;
                 } else {
                     Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
-                    Cell oldCell = theSpreadsheet.getCellValue(cellToken);
 
-                    if(oldCell == null) {
-                        oldCell = new Cell("");     //creating an empty cell
+                    if(currentCell == null) {
+                        currentCell = new Cell("");     //creating an empty cell
                     }
                     if(newCell == null){
                         newCell = new Cell("");
                     }
-                    newCell.addFeedInto(oldCell);       //adding to the different dependency graph
-                    oldCell.addDependency(newCell);
+                    newCell.addFeedInto(currentCell);       //adding to the different dependency graph
+                    currentCell.addDependency(newCell);
 
                     /*Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
                     Cell oldCell = theSpreadsheet.getCellValue(cellToken);
