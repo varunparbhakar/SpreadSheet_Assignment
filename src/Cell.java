@@ -103,8 +103,8 @@ public class Cell {
 
 
     /**
-     * This method evaluate the expression in the cell
-     * for example 5+17*3 = 56
+     * This method should only be called whenever there are multiple tokens to a cell.
+     * A single literal or a reference should not be evaluated with this method.
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
@@ -123,19 +123,17 @@ public class Cell {
 //        myStack.push("-");
 //        String[] myArray = myStack.toArray();
 
-        //Dummy array to store the last 2 number in the array
+        //Checking if the elements in the user's formula are inputted correctly
         for (int i = 0; i < myArray.length; i++) {
             if(isLiteral(myArray[i].toString())
                     || isOperator(myArray[i].toString())
                     || isCellReference(myArray[i].toString())) {
             }else {
-                System.out.println("Something wrong");
-                return false;
+                throw new IllegalArgumentException("Invalid Input");
             }
         }
 
-
-
+        // Checking if the formula is in the correct postFix form
         for (int i = 0; i < myArray.length ; i++) {
             if(isOperator(myArray[i])) {
                 if(!Stack.fetchLast2Values(myArray, i)) {
@@ -208,8 +206,6 @@ public class Cell {
                 return true;
             }
         }
-
-
         return false;
     }
 }
