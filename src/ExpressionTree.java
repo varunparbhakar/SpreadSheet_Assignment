@@ -23,16 +23,16 @@ public class ExpressionTree {
         if( node != null )
         {
             printTree( node.left );
-            System.out.println( node.getToken().printExpressionTreeToken(node.getToken()) );
+            System.out.println( Token.printExpressionTreeToken(node.getToken()) );
             printTree( node.right );
         }
     }
 
-    
+
     public ExpressionTree(ExpressionTreeNode root){
         this.root = root;
     }
-  
+
     /*public ExpressionTree() {
         this.root = new ExpressionTreeNode();
     }*/
@@ -43,13 +43,13 @@ public class ExpressionTree {
      * Evaluate the expression of formula
      * @return value after calculation
      */
-    public int Evaluate(Spreadsheet spreadsheet, CellToken cellToken){
+    public int Evaluate(Spreadsheet spreadsheet){
 
         if( root == null ) {
             return 0;
         }
         else {
-            return Evaluate(spreadsheet, cellToken, root);
+            return Evaluate(spreadsheet, root);
         }
     }
 
@@ -58,12 +58,11 @@ public class ExpressionTree {
      * @param node Node of Expression Tree
      * @return value after calculation
      */
-    private int Evaluate(Spreadsheet spreadsheet, CellToken currentCellToken, ExpressionTreeNode node) {
+    private int Evaluate(Spreadsheet spreadsheet, ExpressionTreeNode node) {
         int result = 0;
         char operator = '0';
         int literalToken = 0;
         CellToken cellTokenInExpression = null;
-        Cell currentCell;
         Cell cellInExpression;
 
         if(node != null) {
@@ -75,26 +74,13 @@ public class ExpressionTree {
                 return literalToken;
             }
 
-            //For Cell Token, return value of Cell in Expression
-            //"A1 = A3 + 4"
-            //A3 feed into A1 =>
-            //A1 depend on A3 => A1 is feed into of A3
+            //For Cell Token, return the value of the Cell in Expression
             if(token instanceof CellToken){
-                cellTokenInExpression = (CellToken) token; // A3 + 4
-
-                currentCell = spreadsheet.getCellValue(currentCellToken); // A1
-                cellInExpression = spreadsheet.getCellValue(cellTokenInExpression); // A3
-
-                currentCell.addDependency(cellInExpression); //A1 add dependency cell A3
-                cellInExpression.addFeedInto(currentCell); // A3 add feed into cell A1
-
-//                System.out.println("cellTokenInExpression " + Token.printExpressionTreeToken(cellTokenInExpression));
-//                System.out.println("currentCell " + currentCell);
-//                System.out.println("cellInExpression " + cellInExpression);
-//                System.out.println("currentCell addDependency " + currentCell.getDependsOn());
-//                System.out.println("currentCell addFeedInto " + currentCell.getFeedsInto());
-//                System.out.println("cellInExpression getValue " + currentCell.getValue());
-
+                cellTokenInExpression = (CellToken) token;
+                cellInExpression = spreadsheet.getCellValue(cellTokenInExpression);
+                if(cellInExpression == null){
+                    return 0;
+                }
                 return cellInExpression.getValue();
             }
 
@@ -103,13 +89,13 @@ public class ExpressionTree {
                 operator = ((OperatorToken) token).getOperatorToken();
 
                 if (operator == '+') {
-                    result = Evaluate(spreadsheet, currentCellToken, node.left) + Evaluate(spreadsheet,currentCellToken, node.right);
+                    result = Evaluate(spreadsheet, node.left) + Evaluate(spreadsheet, node.right);
                 } else if (operator == '-') {
-                    result = Evaluate(spreadsheet, currentCellToken, node.left) - Evaluate(spreadsheet, currentCellToken, node.right);
+                    result = Evaluate(spreadsheet, node.left) - Evaluate(spreadsheet, node.right);
                 } else if (operator == '*') {
-                    result = Evaluate(spreadsheet, currentCellToken, node.left) * Evaluate(spreadsheet, currentCellToken, node.right);
+                    result = Evaluate(spreadsheet, node.left) * Evaluate(spreadsheet, node.right);
                 } else if (operator == '/') {
-                    result = Evaluate(spreadsheet, currentCellToken, node.left) / Evaluate(spreadsheet, currentCellToken, node.right);
+                    result = Evaluate(spreadsheet, node.left) / Evaluate(spreadsheet, node.right);
                 }
             }
         }
