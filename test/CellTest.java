@@ -163,4 +163,9 @@ class CellTest {
         String operatorString = "'";
         assertFalse(myTestCell.isOperator(operatorString));
     }
+    @Test
+    void isOperator8() {
+        String operatorString = "_";
+        assertFalse(myTestCell.isOperator(operatorString));
+    }
 }
