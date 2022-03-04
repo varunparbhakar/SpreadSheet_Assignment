@@ -336,6 +336,10 @@ public class SpreadsheetApp {
         }
     }
 
+    public static void menuSaveSpreadsheet(Spreadsheet theSpreadSheet) {
+        theSpreadSheet.exportSpreadSheet();
+    }
+
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
 
@@ -355,7 +359,7 @@ public class SpreadsheetApp {
             System.out.println("c: change the formula of a cell");
             // BONUS
             System.out.println("r: read in a spreadsheet from a textfile");
-            //BONUS System.out.println("s: save the spreadsheet to a textfile");
+            System.out.println("s: save the spreadsheet to a textfile");
 
             System.out.println();
             System.out.println("q: quit");
@@ -387,11 +391,11 @@ public class SpreadsheetApp {
                 case 'r':
                     menuReadSpreadsheet(theSpreadsheet);
                     break;
-/*
-                case 's':
+
+                    case 's':
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
-                    */
+
 
                 case 'q':
                     done = true;
