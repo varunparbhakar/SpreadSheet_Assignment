@@ -108,16 +108,81 @@ public class Cell {
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
-    public static boolean validateCell(Stack theStack) {
+    public static boolean evaluateCell(Stack theStack) {
         String[] myArray = theStack.toArray();
+        //Dummy array to store the last 2 number in the array
+        Object[] lastTwoNumbers;
 
         boolean validExpression = false;
 
-        for (int i = 0; i < myArray.length ; i++) {
-            myArray[i].toString();
-        }
+//        for (int i = 0; i < myArray.length ; i++) {
+//            switch (myArray[i]) {
+//                case ("/"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = (lastTwoNumbers[0].toString()) / lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("*"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] * lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("+"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] + lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("-"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] - lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//            }
+//        }
 
 
         return validExpression;
+    }
+
+    /**
+     * Checks to see if the string is a literal.
+     * @param theLiteral (String, Value)
+     * @return (Boolean, literal or not)
+     */
+    public boolean isLiteral(String theLiteral) {
+        int asciiValue;
+        for (int i = 0; i < theLiteral.length(); i++) {
+            asciiValue = theLiteral.charAt(i);
+            // If ASCII value < 0 || > 9 // Then return false;
+            if(asciiValue < 48 || asciiValue > 57) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks to see if the string is a literal.
+     * @param theReference (String, Value)
+     * @return (Boolean, literal or not)
+     */
+    public boolean isCellReference(String theReference) {
+        int asciiValue = theReference.charAt(0);
+        //Checking for the first alphabetCharacter
+        if(asciiValue <65 || asciiValue > 90) {
+            return false;
+        }
+        //Checking for the numbers that follow the Alphabet reference
+        for (int i = 1; i < theReference.length(); i++) {
+            asciiValue = theReference.charAt(i);
+            // If ASCII value < 0 || > 9 // Then return false;
+            if(asciiValue < 48 || asciiValue > 57) {
+                return false;
+            }
+        }
+        return true;
     }
 }
