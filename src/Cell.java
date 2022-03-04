@@ -112,6 +112,15 @@ public class Cell {
         String[] myArray = theStack.toArray();
         //Dummy array to store the last 2 number in the array
         Object[] lastTwoNumbers;
+        for (int i = 0; i < myArray.length; i++) {
+            if(isLiteral(myArray[i].toString())
+                    || isOperator(myArray[i].toString())
+                    || isCellReference(myArray[i].toString())) {
+                System.out.println("This passed");
+            }else {
+                System.out.println("There is something wrong");
+            }
+        }
 
         boolean validExpression = false;
 
@@ -152,7 +161,7 @@ public class Cell {
      * @param theLiteral (String, Value)
      * @return (Boolean, literal or not)
      */
-    public boolean isLiteral(String theLiteral) {
+    public static boolean isLiteral(String theLiteral) {
         int asciiValue = theLiteral.charAt(0);
         if(asciiValue == 45) {
             for (int i = 1; i < theLiteral.length(); i++) {
@@ -179,7 +188,7 @@ public class Cell {
      * @param theReference (String, Value)
      * @return (Boolean, reference or not)
      */
-    public boolean isCellReference(String theReference) {
+    public static boolean isCellReference(String theReference) {
         int asciiValue = theReference.charAt(0);
         //Checking for the first alphabetCharacter
         if((asciiValue >= 65 && asciiValue <= 90) || (asciiValue >= 97 && asciiValue <= 122) ){
@@ -201,7 +210,7 @@ public class Cell {
      * @param theReference (String, Value)
      * @return (Boolean, operator or not)
      */
-    public boolean isOperator(String theReference) {
+    public static boolean isOperator(String theReference) {
         int asciiValue = theReference.charAt(0);
         if(theReference.length() == 1) {
             if(asciiValue == 42 || asciiValue == 43 || asciiValue == 45 ||asciiValue == 47) {

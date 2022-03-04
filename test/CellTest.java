@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Stack;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
@@ -25,6 +27,7 @@ class CellTest {
 
     @Test
     void evaluate() {
+
     }
 
     @Test
@@ -168,4 +171,6 @@ class CellTest {
         String operatorString = "_";
         assertFalse(myTestCell.isOperator(operatorString));
     }
+
+
 }
