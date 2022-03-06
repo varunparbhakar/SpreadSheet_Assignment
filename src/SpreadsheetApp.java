@@ -5,11 +5,9 @@
  * @author Donald Chinn
  */
 
+import javax.print.MultiDocPrintService;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class SpreadsheetApp {
 
@@ -228,6 +226,7 @@ public class SpreadsheetApp {
             for (Cell c2 : feedsList) {
                 if (c2.equals(cell)) {
                     feedsList.remove(c2);
+                    break;
                 }
             }
         }
@@ -343,14 +342,13 @@ public class SpreadsheetApp {
     }
 
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
-        Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
+        //Setup the Spreadsheet
+        //Spreadsheet theSpreadsheet = setupSpreadsheet();        //creates a new spreadsheet with 8 rows and cols
+        Spreadsheet theSpreadsheet = new Spreadsheet(4);
 
         boolean done = false;
         String command = "";
 
-        System.out.println(">>> Welcome to the TCSS 342 Spreadsheet <<<");
-        System.out.println();
-        System.out.println();
 
         while (!done) {
             System.out.println("Choose from the following commands:");
@@ -369,6 +367,8 @@ public class SpreadsheetApp {
             System.out.println();
             System.out.println("Enter your command: ");
             //UPDATE
+
+
             command = readString().toLowerCase();
 
             // We care only about the first character of the string
@@ -398,7 +398,6 @@ public class SpreadsheetApp {
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
 
-
                 case 'q':
                     done = true;
                     break;
@@ -412,6 +411,64 @@ public class SpreadsheetApp {
         }
 
         System.out.println("Thank you for using our spreadsheet.");
+    }
+    public static Spreadsheet setupSpreadsheet() {
+        String usInput = "";
+
+        System.out.println(">>> Welcome to the TCSS 342 Spreadsheet <<<");
+        System.out.println();
+        System.out.println();
+
+        boolean userSelected = true;
+        while(!userSelected) {
+            System.out.println("Please select how would you like to setup your spreadsheet?");
+            System.out.println("1. Square");
+            System.out.println("2. Custom Rows and Columns");
+            System.out.println("3. Help");
+            usInput = readString();
+            switch (usInput) {
+                case ("1"):
+                    //Square Spreadsheet
+                    System.out.println("You have selected a square spreadsheet");
+                    String squareSelection = "";
+                    boolean inputFound = false;
+                    while(!inputFound) {
+                        System.out.println("Press 'B' to go back.");
+                        System.out.println("Please enter the size : ");
+                        squareSelection = readString();
+                        switch (squareSelection) {
+                            case ("B"):
+                                inputFound = true;
+                                System.out.println("GOING BACK");
+                                break;
+                            default:
+                                if(validateNumber(squareSelection)) {
+                                    if(Integer.parseInt(squareSelection) != 0) {
+                                        return new Spreadsheet(Integer.parseInt(squareSelection));
+                                    }
+                                }
+                        }
+                    }
+                case("2"):
+                    //Custom Spreadsheet
+                    break;
+
+                case("3"):
+                    //Asking for help
+                    break;
+            }
+
+        }
+        return new Spreadsheet(4);
+    }
+    public static boolean validateNumber (String theString) {
+        for (int i = 0; i < theString.length(); i++) {
+            if(theString.charAt(i) > 57 || theString.charAt(i) < 48) {
+                System.out.println("Please enter valid input");
+                return false;
+            }
+        }
+        return true;
     }
 
 }

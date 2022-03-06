@@ -112,6 +112,8 @@ public class Cell {
      * A single literal or a reference should not be evaluated with this method.
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
+     *
+     *
      */
     public static boolean validateInputFormula(Stack theStack) throws IllegalAccessException {
         String[] myArray = theStack.toArray();

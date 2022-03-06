@@ -32,6 +32,7 @@ public class Spreadsheet {
     }
 
     public Cell insertItem (int theRow, int theColumn, String theValue) {
+
         Cell myCell = new Cell(theValue);
         spreadsheet[theRow][theColumn] = myCell;
         return myCell;
@@ -253,9 +254,9 @@ public class Spreadsheet {
             }
         }
 
-        /*if (counter != spreadsheet.length){
+        if (counter != (getNumColumns() * getNumRows())){
             throw new CycleFoundException("Cycle found");
-        }*/
+        }
 
     }
 
