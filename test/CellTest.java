@@ -24,10 +24,7 @@ class CellTest {
     }
 
     @Test
-    void evaluate() throws IllegalArgumentException, IllegalAccessException {
-        Cell.validateInputFormula(Token.getFormula("14+4+7+72", new Spreadsheet(4), new Cell("2")));
-
-
+    void evaluate() {
     }
 
     @Test
@@ -39,7 +36,8 @@ class CellTest {
     }
     @Test
     void test() {
-
+        boolean s = myTestCell.isLiteral("42");
+        System.out.println(s);
     }
 
     @Test
@@ -170,8 +168,4 @@ class CellTest {
         String operatorString = "_";
         assertFalse(myTestCell.isOperator(operatorString));
     }
-
-
-
-
 }

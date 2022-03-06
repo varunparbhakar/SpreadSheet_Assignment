@@ -31,11 +31,6 @@ public class Cell {
     public int getIndegree(){return indegree;}
 
     public void setIndegree(int indegree){this.indegree = indegree;}
-
-
-    public ExpressionTree getExpressionTree(){return expressionTree;}
-
-    public void setExpressionTree(ExpressionTree expressionTree){this.expressionTree = expressionTree;}
     /**
      * Set the formula for cell
      * @param formula
@@ -108,46 +103,48 @@ public class Cell {
 
 
     /**
-     * This method should only be called whenever there are multiple tokens to a cell.
-     * A single literal or a reference should not be evaluated with this method.
+     * This method evaluate the expression in the cell
+     * for example 5+17*3 = 56
      * @param theStack (The stack containing the post fix version of the expression)
      * @return (Double, the finalSolution)
      */
-    public static boolean validateInputFormula(Stack theStack) throws IllegalAccessException {
+    public static boolean evaluateCell(Stack theStack) {
         String[] myArray = theStack.toArray();
+        //Dummy array to store the last 2 number in the array
+        Object[] lastTwoNumbers;
 
-//        Stack myStack = new Stack();
-//        myStack.push("2");
-//        myStack.push("8");
-//        myStack.push("/");
-//        myStack.push("9");
-//        myStack.push("/");
-//        myStack.push("3");
-//        myStack.push("*");
-//        myStack.push("4");
-//        myStack.push("-");
-//        String[] myArray = myStack.toArray();
+        boolean validExpression = false;
 
-        //Checking if the elements in the user's formula are inputted correctly
-        for (int i = 0; i < myArray.length; i++) {
-            if(isLiteral(myArray[i].toString())
-                    || isOperator(myArray[i].toString())
-                    || isCellReference(myArray[i].toString())) {
-            }else {
-                throw new IllegalArgumentException("Invalid Input");
-            }
-        }
+//        for (int i = 0; i < myArray.length ; i++) {
+//            switch (myArray[i]) {
+//                case ("/"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = (lastTwoNumbers[0].toString()) / lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("*"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] * lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("+"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] + lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//
+//                case ("-"):
+//                    lastTwoNumbers = Stack.fetchLast2Values(myArray, i);
+//                    solution = lastTwoNumbers[0] - lastTwoNumbers[1];
+//                    myArray[i] = Double.toString(solution);
+//                    break;
+//            }
+//        }
 
-        // Checking if the formula is in the correct postFix form
-        for (int i = 0; i < myArray.length ; i++) {
-            if(isOperator(myArray[i])) {
-                if(!Stack.fetchLast2Values(myArray, i)) {
-                    throw new IllegalArgumentException("Two Values were not found");
-                }
-            }
-        }
 
-        return true;
+        return validExpression;
     }
 
     /**
@@ -155,7 +152,7 @@ public class Cell {
      * @param theLiteral (String, Value)
      * @return (Boolean, literal or not)
      */
-    public static boolean isLiteral(String theLiteral) {
+    public boolean isLiteral(String theLiteral) {
         int asciiValue = theLiteral.charAt(0);
         if(asciiValue == 45) {
             for (int i = 1; i < theLiteral.length(); i++) {
@@ -182,7 +179,7 @@ public class Cell {
      * @param theReference (String, Value)
      * @return (Boolean, reference or not)
      */
-    public static boolean isCellReference(String theReference) {
+    public boolean isCellReference(String theReference) {
         int asciiValue = theReference.charAt(0);
         //Checking for the first alphabetCharacter
         if((asciiValue >= 65 && asciiValue <= 90) || (asciiValue >= 97 && asciiValue <= 122) ){
@@ -204,14 +201,15 @@ public class Cell {
      * @param theReference (String, Value)
      * @return (Boolean, operator or not)
      */
-    public static boolean isOperator(String theReference) {
+    public boolean isOperator(String theReference) {
         int asciiValue = theReference.charAt(0);
         if(theReference.length() == 1) {
             if(asciiValue == 42 || asciiValue == 43 || asciiValue == 45 ||asciiValue == 47) {
                 return true;
             }
         }
+
+
         return false;
     }
 }
-
