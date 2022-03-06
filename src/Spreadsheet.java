@@ -1,9 +1,14 @@
+import java.io.BufferedWriter;
 import java.util.LinkedList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class Spreadsheet {
     private final Cell[][] spreadsheet; //the two-dimensional array to act as the spreadsheet and hold the cell values
     private static int row;       //number of rows
     private static int col;       //num of columns
+    private String fileName = "Saved_Spreadsheet.csv";
 
     public Spreadsheet(int num){
         row = num;
@@ -26,12 +31,6 @@ public class Spreadsheet {
         return spreadsheet[cToken.getRow()][cToken.getColumn()];
     }
 
-    /**
-     * Inserts an item into a specified place in the spreadsheet
-     * @param theRow
-     * @param theColumn
-     * @param theValue (String, The formula)
-     */
     public Cell insertItem (int theRow, int theColumn, String theValue) {
         Cell myCell = new Cell(theValue);
         spreadsheet[theRow][theColumn] = myCell;
@@ -58,11 +57,8 @@ public class Spreadsheet {
      //* @param expTreeTokenStack stack of expression from the formula
      */
     public void creatCell(CellToken cellToken, String formula){
-
-
         int rowNumber = cellToken.getRow();
         int colNumber = cellToken.getColumn();
-
         //if this is not null, then we know it was already created before because another cell depends on it
         if(spreadsheet[rowNumber][colNumber] != null){
             LinkedList<Cell> feedsList = spreadsheet[rowNumber][colNumber].getFeedsInto();
@@ -157,8 +153,8 @@ public class Spreadsheet {
 
         //Evaluate the expression tree
         //then Update value to the current cell
-        //int calculationResult = expressionTree.Evaluate(theSpreadsheet);
-        //myCell.setValue(calculationResult);
+//        int calculationResult = expressionTree.Evaluate(theSpreadsheet);
+//        myCell.setValue(calculationResult);
     }
 
     /**
@@ -263,7 +259,7 @@ public class Spreadsheet {
 
     }
 
-    //creating a new exception to handle when a cycle is found.
+    //creating a new exception to handle when a cycle is found
     class CycleFoundException extends  Exception{
         public CycleFoundException(String message) {
             super(message);
@@ -279,6 +275,34 @@ public class Spreadsheet {
         }
 
         System.out.println();
+    }
+
+    /**
+     * This method takes the current spreadsheet and exports it
+     * to a .cvs file format
+     */
+    public void exportSpreadSheet() {
+        try {
+            //PrintWriter pw = new PrintWriter(new File(fileName));
+            PrintWriter pw = new PrintWriter(new File("test.txt")); // Change it back to .CSV file name
+            StringBuilder sb = new StringBuilder();
+
+            //Reading every Cell
+            for (int i = 0; i < getNumRows(); i++) {
+                for (int j = 0; j < getNumColumns(); j++) {
+                    Cell myCell = spreadsheet[i][j];
+                    sb.append(myCell.getFormula());
+                    sb.append(",");
+                }
+                sb.append("\n");
+            }
+            //Writing to spreadsheet and closing the file
+            pw.write(sb.toString());
+            pw.close();
+
+        } catch (Exception E){
+        }
+
     }
 
 }

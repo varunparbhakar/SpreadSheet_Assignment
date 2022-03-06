@@ -89,7 +89,7 @@ public class Stack {
      * @param startingIndex (int, Starting Index)
      * @return (int[], Array size 2 with the last 2 numbers)
      */
-    public static Object[] fetchLast2Values(String[] theArray, int startingIndex) {
+    public static boolean fetchLast2Values(String[] theArray, int startingIndex) {
         //Array to hold the last 2 numbers
         Object[] numberArray = new Object[2];
         //Counter for the numberArray
@@ -99,14 +99,17 @@ public class Stack {
 
         for (int i = startingIndex-1; i >= 0 ; i--) {
             if(!theArray[i].equals("X")) {
-                numberArray[numberArrayCounter] = Double.parseDouble(theArray[i]);
                 theArray[i] = "X";
                 numberArrayCounter--;
                 if(numberArrayCounter == -1) {break;}
-                //NOTE TO SELF, MAKE A CASE WHERE THE SECOND OR NO VALUES ARE FOUND
             }
         }
-        return numberArray;
+        theArray[startingIndex] = "C";
+        if(numberArrayCounter != -1) {
+            System.out.println("two values were not found");
+            return false;
+        }
+        return true;
     }
 
 

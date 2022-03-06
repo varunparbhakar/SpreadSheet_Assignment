@@ -103,6 +103,12 @@ public class SpreadsheetApp {
         System.out.println("Enter the cell's new formula: ");
         inputFormula = readString().toUpperCase();
 
+//        //Print the value of spreadsheet before reevaluation
+//        System.out.println("Spreadsheet before reevaluation ");
+//        menuPrintAllFormulas(theSpreadsheet);
+//        menuPrintValues(theSpreadsheet);
+//        System.out.println();
+
         //reset dependencies if cell token is not null
         if (cellToken != null) {
             resettingDependencies(theSpreadsheet, cellToken, inputFormula);
@@ -117,6 +123,12 @@ public class SpreadsheetApp {
 
         //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
+
+//        //Print the value of spreadsheet after reevaluation
+//        System.out.println("Spreadsheet after reevaluation ");
+//        menuPrintAllFormulas(theSpreadsheet);
+//        menuPrintValues(theSpreadsheet);
+//        System.out.println();
 
         /*
         // This code prints out the expression stack from
@@ -274,12 +286,9 @@ public class SpreadsheetApp {
             String formula = cell.getFormula();
 
             //Make a stack of expression
-            //Stack expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
 
-            //expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
 
             //Build expression tree from the stack of expression
-
 
             //Evaluate the expression tree then Update value to the current cell
             int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
@@ -329,6 +338,10 @@ public class SpreadsheetApp {
         }
     }
 
+    public static void menuSaveSpreadsheet(Spreadsheet theSpreadSheet) {
+        theSpreadSheet.exportSpreadSheet();
+    }
+
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
         Spreadsheet theSpreadsheet = new Spreadsheet(4);        //creates a new spreadsheet with 8 rows and cols
 
@@ -348,7 +361,7 @@ public class SpreadsheetApp {
             System.out.println("c: change the formula of a cell");
             // BONUS
             System.out.println("r: read in a spreadsheet from a textfile");
-            //BONUS System.out.println("s: save the spreadsheet to a textfile");
+            System.out.println("s: save the spreadsheet to a Spreadsheet");
 
             System.out.println();
             System.out.println("q: quit");
@@ -380,11 +393,11 @@ public class SpreadsheetApp {
                 case 'r':
                     menuReadSpreadsheet(theSpreadsheet);
                     break;
-/*
-                case 's':
+
+                    case 's':
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
-                    */
+
 
                 case 'q':
                     done = true;
