@@ -268,8 +268,8 @@ public class Spreadsheet {
      */
     public void exportSpreadSheet() {
         try {
-            //PrintWriter pw = new PrintWriter(new File(fileName));
-            PrintWriter pw = new PrintWriter(new File("test.txt")); // Change it back to .CSV file name
+            PrintWriter pw = new PrintWriter(new File(fileName));
+
             StringBuilder sb = new StringBuilder();
 
             //Reading every Cell
@@ -284,6 +284,7 @@ public class Spreadsheet {
             //Writing to spreadsheet and closing the file
             pw.write(sb.toString());
             pw.close();
+            System.out.println("Your spreadsheet has been saved with the name " + fileName);
 
         } catch (Exception E){
         }

@@ -411,7 +411,7 @@ public class SpreadsheetApp {
             System.out.println("c: change the formula of a cell");
             // BONUS
             System.out.println("r: read in a spreadsheet from a textfile");
-            System.out.println("s: save the spreadsheet to a Spreadsheet");
+            System.out.println("s: save the spreadsheet to a .csv file");
 
             System.out.println();
             System.out.println("q: quit");
