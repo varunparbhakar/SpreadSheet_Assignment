@@ -97,6 +97,7 @@ public class SpreadsheetApp {
         inputCell = readString().toUpperCase();
         CellToken.getCellToken(inputCell, 0, cellToken);
 
+
         //Error check to make sure the row and column are within spreadsheet array bounds.
         checkCellBound(theSpreadsheet, cellToken);
 
@@ -114,8 +115,11 @@ public class SpreadsheetApp {
             resettingDependencies(theSpreadsheet, cellToken, inputFormula);
         }
 
-        //Create cell from cell token
+        //creating the cell
         Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+        if(currentCell == null){
+            currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
+        }
 
         //Creat a stack of expression from the formula
         expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
@@ -228,6 +232,7 @@ public class SpreadsheetApp {
             for (Cell c2 : feedsList) {
                 if (c2.equals(cell)) {
                     feedsList.remove(c2);
+                    break;
                 }
             }
         }
@@ -291,8 +296,10 @@ public class SpreadsheetApp {
             //Build expression tree from the stack of expression
 
             //Evaluate the expression tree then Update value to the current cell
-            int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
-            cell.setValue(calculationResult);
+            if(cell.getFormula() != ""){
+                int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
+                cell.setValue(calculationResult);
+            }
         }
 
         /*for (Cell cellArray : sortedCellArray) {
@@ -394,7 +401,7 @@ public class SpreadsheetApp {
                     menuReadSpreadsheet(theSpreadsheet);
                     break;
 
-                    case 's':
+                case 's':
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
 
