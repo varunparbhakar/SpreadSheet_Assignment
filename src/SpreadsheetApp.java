@@ -56,9 +56,9 @@ public class SpreadsheetApp {
         String inputString;
 
         //getting user input
-        System.out.println("Enter the cell: ");
+        System.out.print("\nEnter the cell: ");
         inputString = readString();
-        CellToken.getCellToken(inputString, 0, cellToken);
+        CellToken.getCellToken(inputString.toUpperCase(), 0, cellToken);
 
         System.out.print(CellToken.printCellToken(cellToken));
         System.out.print(": ");

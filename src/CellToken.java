@@ -72,6 +72,7 @@ public class CellToken extends Token {
         // ASSERT: index now points to the first non-whitespace character
 
         ch = inputString.charAt(index);
+
         // process CAPITAL alphabetic characters to calculate the column
         if (!Character.isUpperCase(ch)) {
             cellToken.setColumn(BadCell);
