@@ -230,13 +230,13 @@ public class SpreadsheetApp {
                     expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
                     Stack expressionTreeCopy = expTreeTokenStack.copy();
                     if(expressionTreeCopy.size() != 0) {
+                        ExpressionTree expressionTree = new ExpressionTree(null);
+                        expressionTree.BuildExpressionTree(expTreeTokenStack);
 
                         if(expressionTreeCopy.size() > 2) {
                             Cell.validateInputFormula(expressionTreeCopy, inputFormula);
-                            ExpressionTree expressionTree = new ExpressionTree(null);
-                            expressionTree.BuildExpressionTree(expTreeTokenStack);
-                            currentCell.setExpressionTree(expressionTree);
                         }
+                        currentCell.setExpressionTree(expressionTree);
                     } else {
                         throw new IllegalArgumentException("Stack is empty");
                     }
@@ -367,6 +367,8 @@ public class SpreadsheetApp {
 
             //Evaluate the expression tree then Update value to the current cell
             if (cell.getFormula() != "") {
+                System.out.println("\n" + cell);
+                System.out.println(cell.getFormula());
                 int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
                 cell.setValue(calculationResult);
             }
