@@ -215,5 +215,9 @@ public class Cell {
         }
         return false;
     }
+    public static int parseFormula(String theString) {
+
+        return 6;
+    }
 }
 

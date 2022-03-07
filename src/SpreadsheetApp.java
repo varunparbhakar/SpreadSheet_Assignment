@@ -343,15 +343,15 @@ public class SpreadsheetApp {
 
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
         //Setup the Spreadsheet
-        //Spreadsheet theSpreadsheet = setupSpreadsheet();        //creates a new spreadsheet with 8 rows and cols
-        Spreadsheet theSpreadsheet = new Spreadsheet(4);
+        Spreadsheet theSpreadsheet = setupSpreadsheet();        //creates a new spreadsheet (USER LIMITED TO 26 ROWS AND COLUMNS)
+//        Spreadsheet theSpreadsheet = new Spreadsheet(4);
 
         boolean done = false;
         String command = "";
 
 
         while (!done) {
-            System.out.println("Choose from the following commands:");
+            System.out.println("\nChoose from the following commands:");
             System.out.println();
             System.out.println("p: print out the values in the spreadsheet");
             System.out.println("f: print out a cell's formula");
@@ -365,7 +365,7 @@ public class SpreadsheetApp {
             System.out.println("q: quit");
 
             System.out.println();
-            System.out.println("Enter your command: ");
+            System.out.print("\nEnter your command: ");
             //UPDATE
 
 
@@ -417,45 +417,58 @@ public class SpreadsheetApp {
 
         System.out.println(">>> Welcome to the TCSS 342 Spreadsheet <<<");
         System.out.println();
-        System.out.println();
 
-        boolean userSelected = true;
+        boolean userSelected = false;
         while(!userSelected) {
-            System.out.println("Please select how would you like to setup your spreadsheet?");
+            System.out.println("\nPlease select how would you like to setup your spreadsheet?");
             System.out.println("1. Square");
             System.out.println("2. Custom Rows and Columns");
             System.out.println("3. Help");
+            System.out.print("\nPlease select(1/2/3): ");
             usInput = readString();
             switch (usInput) {
                 case ("1"):
                     //Square Spreadsheet
-                    System.out.println("You have selected a square spreadsheet");
-                    String squareSelection = "";
-                    boolean inputFound = false;
-                    while(!inputFound) {
-                        System.out.println("Press 'B' to go back.");
-                        System.out.println("Please enter the size : ");
-                        squareSelection = readString();
-                        switch (squareSelection) {
-                            case ("B"):
-                                inputFound = true;
-                                System.out.println("GOING BACK");
-                                break;
-                            default:
-                                if(validateNumber(squareSelection)) {
-                                    if(Integer.parseInt(squareSelection) != 0) {
-                                        return new Spreadsheet(Integer.parseInt(squareSelection));
-                                    }
-                                }
-                        }
+                    System.out.println("You have selected a Square Spreadsheet");
+                    int size = validateSelection("Please enter the size of the spreadsheet: ");
+                    if(size == Integer.MIN_VALUE) {
+                        break; //User has selected back
+                    } else {
+                        userSelected = true;
+                        return new Spreadsheet(size);
                     }
+
+
                 case("2"):
-                    //Custom Spreadsheet
-                    break;
+                    System.out.println("You have selected a Custom spreadsheet");
+                    int numberOfRows = validateSelection("Please enter the number of rows: ");
+
+                    if(numberOfRows == Integer.MIN_VALUE) { //User wants to go back
+                        break;
+                    }
+                    int numberOfColumns = validateSelection("Please enter the number of Columns: ");
+
+                    if(numberOfRows == Integer.MIN_VALUE) { //User wants to go back
+                        break;
+                    }
+                    userSelected = true;
+                    return new Spreadsheet(numberOfRows, numberOfColumns);
 
                 case("3"):
-                    //Asking for help
+                    String squareString = """
+                            \n1. Square option allows you to create a spreadsheet with the same amount of rows
+                            and columns, you will have to enter a single integer value.""";
+
+                    String customString = """
+                            \n2. Custom option allows you to create a spreadsheet with the custom number of rows 
+                            and columns. NOTE you are limited to only creating upto 26 columns. You will be 
+                            asked to enter numbers, first time you will enter the number of rows and second time
+                            you will enter the number of columns.""";
+                    System.out.println(squareString);
+                    System.out.println(customString);
                     break;
+                default:
+                    System.out.println("\nERROR: Please enter correct a number corresponding to the option\n");
             }
 
         }
@@ -464,11 +477,36 @@ public class SpreadsheetApp {
     public static boolean validateNumber (String theString) {
         for (int i = 0; i < theString.length(); i++) {
             if(theString.charAt(i) > 57 || theString.charAt(i) < 48) {
-                System.out.println("Please enter valid input");
+                System.out.println("ERROR: Please enter valid input");
                 return false;
             }
         }
         return true;
+    }
+    public static int validateSelection(String displayMessage) {
+        String customSelection = "";
+        Scanner scan = new Scanner(System.in);
+        int userNumber = 0;
+        boolean inputFound = false;
+        while(!inputFound) {
+            System.out.println("\nPress 'B' to go back.");
+            System.out.print(displayMessage);
+            customSelection = scan.next();
+            switch (customSelection.toLowerCase()) {
+                case ("b"):
+                    inputFound = true;
+                    return Integer.MIN_VALUE;
+                default:
+                    if(validateNumber(customSelection)) {
+                        if(Integer.parseInt(customSelection) != 0 && Integer.parseInt(customSelection) < 27) {
+                            return Integer.parseInt(customSelection);
+                        } else {
+                            System.out.println("Please enter a size between 1 and 26");
+                        }
+                    }
+
+            }
+        }return  userNumber;
     }
 
 }

@@ -69,6 +69,7 @@ public class Spreadsheet {
 
 
             Cell currentCell = new Cell(formula);
+
             spreadsheet[rowNumber][colNumber] = currentCell;
 
             //adding new dependencies
