@@ -115,34 +115,38 @@ public class Cell {
      *
      *
      */
-    public static boolean validateInputFormula(Stack theStack) throws IllegalAccessException {
-        String[] myArray = theStack.toArray();
-
-//        Stack myStack = new Stack();
-//        myStack.push("2");
-//        myStack.push("8");
-//        myStack.push("/");
-//        myStack.push("9");
-//        myStack.push("/");
-//        myStack.push("3");
-//        myStack.push("*");
-//        myStack.push("4");
-//        myStack.push("-");
-//        String[] myArray = myStack.toArray();
+    public static boolean validateInputFormula(Stack theStack, String theString) throws IllegalAccessException {
+        //Checking if an operator appears back to back in the formula
+        String forumla = theString;
+        boolean seenOperator = false;
+        for (int i = 0; i < forumla.length(); i++) {
+            if(isOperator(String.valueOf(forumla.charAt(i))) && seenOperator) {
+                throw new IllegalArgumentException("Operator appears twice");
+            } else if(isOperator(String.valueOf(forumla.charAt(i)))) {
+                seenOperator = true;
+            } else {
+                seenOperator = false;
+            }
+        }
+        Object[] myArray = theStack.toArray();
+        if(myArray.length == 0) {
+            throw new IllegalArgumentException("Stack is empty");
+        }
 
         //Checking if the elements in the user's formula are inputted correctly
         for (int i = 0; i < myArray.length; i++) {
             if(isLiteral(myArray[i].toString())
-                    || isOperator(myArray[i].toString())
-                    || isCellReference(myArray[i].toString())) {
+                    || isOperator(myArray[i].toString())) {
             }else {
-                throw new IllegalArgumentException("Invalid Input");
+                if(!(myArray[i] instanceof CellToken)) {
+                    throw new IllegalArgumentException("Invalid Input");
+                }
             }
         }
 
         // Checking if the formula is in the correct postFix form
         for (int i = 0; i < myArray.length ; i++) {
-            if(isOperator(myArray[i])) {
+            if(isOperator(String.valueOf(myArray[i]))) {
                 if(!Stack.fetchLast2Values(myArray, i)) {
                     throw new IllegalArgumentException("Two Values were not found");
                 }

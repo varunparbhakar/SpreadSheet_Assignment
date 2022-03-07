@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,9 +25,10 @@ class CellTest {
     void getNumDependencies() {
     }
 
-    @Test
-    void evaluate() throws IllegalArgumentException, IllegalAccessException {
-        Cell.validateInputFormula(Token.getFormula("14+4+7+72", new Spreadsheet(4), new Cell("2")));
+    @ParameterizedTest
+    @ValueSource(strings = {"A0"} )
+    void evaluate(String values) throws IllegalArgumentException, IllegalAccessException {
+        System.out.println(Cell.validateInputFormula(Token.getFormula(values, new Spreadsheet(9), new Cell("2")), values));
 
 
     }
