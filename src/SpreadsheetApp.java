@@ -91,14 +91,21 @@ public class SpreadsheetApp {
         CellToken cellToken = new CellToken();
         Stack expTreeTokenStack;
 
-        System.out.println("Enter the cell to change: ");
-        inputCell = readString().toUpperCase();
-        CellToken.getCellToken(inputCell, 0, cellToken);
+        boolean cellFound = false;
+        while (!cellFound) {
+            System.out.print("\nEnter the cell to change: ");
+            inputCell = readString().toUpperCase();
+            CellToken.getCellToken(inputCell, 0, cellToken);
 
-        //Error check to make sure the row and column are within spreadsheet array bounds.
-        checkCellBound(theSpreadsheet, cellToken);
+            //Error check to make sure the row and column are within spreadsheet array bounds.
+            if(checkCellBound(theSpreadsheet, cellToken)) {
+                cellFound = true;
+            } else {
+                System.out.println("ERROR: INVALID CELL");
+            }
+        }
 
-        System.out.println("Enter the cell's new formula: ");
+        System.out.print("\nEnter the cell's new formula: ");
         inputFormula = readString().toUpperCase();
 
 //        //Print the value of spreadsheet before reevaluation
@@ -326,15 +333,14 @@ public class SpreadsheetApp {
      * @param theSpreadsheet the current Spreadsheet
      * @param cellToken      the address of the current cell
      */
-    private static void checkCellBound(Spreadsheet theSpreadsheet, CellToken cellToken) {
+    private static boolean checkCellBound(Spreadsheet theSpreadsheet, CellToken cellToken) {
         if ((cellToken.getRow() < 0) ||
                 (cellToken.getRow() >= theSpreadsheet.getNumRows()) ||
                 (cellToken.getColumn() < 0) ||
                 (cellToken.getColumn() >= theSpreadsheet.getNumColumns())) {
-
-            System.out.println("Bad cell.");
-            return;
+            return false;
         }
+        return true;
     }
 
     public static void menuSaveSpreadsheet(Spreadsheet theSpreadSheet) {
