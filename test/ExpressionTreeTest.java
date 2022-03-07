@@ -18,7 +18,7 @@ class ExpressionTreeTest {
 
         Stack myTestStack = Token.getFormula(myTestFormula, myTest, currentCell);
         System.out.println(myTestStack);
-        System.out.println(Cell.validateInputFormula(myTestStack));
+        System.out.println(Cell.validateInputFormula(myTestStack, myTestFormula));
 
         ExpressionTree myTestTree = new ExpressionTree(new ExpressionTreeNode());
         myTestTree.BuildExpressionTree(myTestStack);

@@ -104,9 +104,11 @@ public class SpreadsheetApp {
                 System.out.println("ERROR: INVALID CELL");
             }
         }
-
-        System.out.print("\nEnter the cell's new formula: ");
-        inputFormula = readString().toUpperCase();
+        boolean correctInput = false;
+        int counter = 0;
+        while (!correctInput) {
+            System.out.print("\nEnter the cell's new formula: ");
+            inputFormula = readString().toUpperCase();
 
 //        //Print the value of spreadsheet before reevaluation
 //        System.out.println("Spreadsheet before reevaluation ");
@@ -114,21 +116,39 @@ public class SpreadsheetApp {
 //        menuPrintValues(theSpreadsheet);
 //        System.out.println();
 
-        //reset dependencies if cell token is not null
-        if (cellToken != null) {
-            resettingDependencies(theSpreadsheet, cellToken, inputFormula);
+            //reset dependencies if cell token is not null
+            if (cellToken != null) {
+                resettingDependencies(theSpreadsheet, cellToken, inputFormula);
+            }
+
+            //Create cell from cell token
+            Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+
+            if(currentCell == null){
+                currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
+            }
+
+            //Creat a stack of expression from the formula
+            try {
+                expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
+                Stack expressionTreeCopy = expTreeTokenStack.copy();
+                if(expressionTreeCopy.size() != 0) {
+
+                    theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+
+                    if(expressionTreeCopy.size() > 2) {
+                        Cell.validateInputFormula(expressionTreeCopy, inputFormula);
+                    }
+                    correctInput = true;
+                } else {
+                    throw new IllegalArgumentException("Stack is empty");
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR: Please enter the correct formula");
+            }
+
         }
 
-        //Create cell from cell token
-        Cell currentCell = theSpreadsheet.getCellValue(cellToken);
-
-        if(currentCell == null){
-            currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
-        }
-
-        //Creat a stack of expression from the formula
-        expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
-        theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
 
         //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
@@ -192,11 +212,33 @@ public class SpreadsheetApp {
                 //Create cell from cell token
                 Cell currentCell = theSpreadsheet.getCellValue(cellToken);
 
-                //Creat a stack of expression from the formula
-                expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
-                ExpressionTree expressionTree = new ExpressionTree(null);
-                expressionTree.BuildExpressionTree(expTreeTokenStack);
-                currentCell.setExpressionTree(expressionTree);
+
+
+                try{
+                    //Create a stack of expression from the formula
+                    expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
+                    Stack expressionTreeCopy = expTreeTokenStack.copy();
+                    if(expressionTreeCopy.size() != 0) {
+
+                        if(expressionTreeCopy.size() > 2) {
+                            Cell.validateInputFormula(expressionTreeCopy, inputFormula);
+                            ExpressionTree expressionTree = new ExpressionTree(null);
+                            expressionTree.BuildExpressionTree(expTreeTokenStack);
+                            currentCell.setExpressionTree(expressionTree);
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Stack is empty");
+                    }
+
+
+                }catch (Exception e) {
+                    System.out.println("ERROR: Invalid formula found at " + inputCell);
+                }
+
+
+
+
+
 
                 //Create a new cell from the token with value, formula and dependency
                 //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
@@ -273,7 +315,7 @@ public class SpreadsheetApp {
             });
 
         } catch (Spreadsheet.CycleFoundException ioe) {
-            System.out.println("TEST THERE IS A CYCLE");
+            System.out.println("ERROR: A Cycle has been found, recent values have been reverted.");
         }
         return sortedCellArray;
     }

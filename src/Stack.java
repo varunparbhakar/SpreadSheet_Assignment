@@ -1,3 +1,4 @@
+import java.io.ObjectStreamException;
 
 /**
  * This class is a substitute for a Java.util.Stack.
@@ -18,7 +19,8 @@ public class Stack {
      * Checks if the myStack is empty.
      * @return (Boolean, if myStack is empty)
      */
-    public boolean isEmpty(){return myStack.empty();}
+    public boolean isEmpty(){
+        return myStack.isEmpty();}
 
     /**
      * Removes the item at the very top of myStack.
@@ -48,6 +50,15 @@ public class Stack {
 
         myStack = new java.util.Stack();
     }
+    public Stack copy() {
+        Object[] copyArray = myStack.toArray();
+        Stack copyStack = new Stack();
+        for (Object obj: copyArray) {
+            copyStack.push(obj);
+
+        }
+        return copyStack;
+    }
 
     /**
      * Returns the item at the top of myStack.
@@ -72,13 +83,9 @@ public class Stack {
      * This function return a string array equivalent of myStack
      * @return (Array equivalent of myStack)
      */
-    public String[] toArray() {
+    public Object[] toArray() {
         Object[] myArray = myStack.toArray();
-        String[] stringArray = new String[myArray.length];
-        for (int i = 0; i < myArray.length; i++) {
-            stringArray[i] = myArray[i].toString();
-        }
-        return stringArray;
+        return myArray;
     }
 
     /**
@@ -89,19 +96,28 @@ public class Stack {
      * @param startingIndex (int, Starting Index)
      * @return (int[], Array size 2 with the last 2 numbers)
      */
-    public static boolean fetchLast2Values(String[] theArray, int startingIndex) {
-        //Array to hold the last 2 numbers
-        Object[] numberArray = new Object[2];
+    public static boolean fetchLast2Values(Object[] theArray, int startingIndex) {
         //Counter for the numberArray
         int numberArrayCounter = 1;
+        boolean foundMinus = false;
+        if(theArray[startingIndex].toString().equals("-")) {
+            foundMinus = true;
+        }
+
         //Make sure the operator get taken out of the array first
-        theArray[startingIndex] = "X";
 
         for (int i = startingIndex-1; i >= 0 ; i--) {
             if(!theArray[i].equals("X")) {
+                if(foundMinus) {
+                    numberArrayCounter--;
+                    numberArrayCounter--;
+                } else {
+                    numberArrayCounter--;
+                }
                 theArray[i] = "X";
-                numberArrayCounter--;
-                if(numberArrayCounter == -1) {break;}
+
+                if(numberArrayCounter == -1) {
+                    break;}
             }
         }
         theArray[startingIndex] = "C";
