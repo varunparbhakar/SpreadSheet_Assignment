@@ -18,6 +18,9 @@ public class SpreadsheetApp {
      *
      * @return a line of input from standard input
      */
+
+    private static boolean cyclePresent = false;
+
     public static String readString() {
         BufferedReader inputReader;
         String returnString = "";
@@ -113,6 +116,8 @@ public class SpreadsheetApp {
 //        menuPrintAllFormulas(theSpreadsheet);
 //        menuPrintValues(theSpreadsheet);
 //        System.out.println();
+        Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+        String previousFormula = currentCell.getFormula();          //getting the old formula
 
         //reset dependencies if cell token is not null
         if (cellToken != null) {
@@ -120,7 +125,8 @@ public class SpreadsheetApp {
         }
 
         //Create cell from cell token
-        Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+        currentCell = theSpreadsheet.getCellValue(cellToken);
+
 
         if(currentCell == null){
             currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
@@ -132,6 +138,11 @@ public class SpreadsheetApp {
 
         //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
+
+        if(cyclePresent){
+            cyclePresent = false;
+            currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), previousFormula);
+        }
 
 //        //Print the value of spreadsheet after reevaluation
 //        System.out.println("Spreadsheet after reevaluation ");
@@ -207,6 +218,15 @@ public class SpreadsheetApp {
             //recalculate whole spreadsheet
             recalculateSpreadsheet(theSpreadsheet);
 
+            if(cyclePresent){       //resetting spreadsheet if a cycle is found
+                cyclePresent = false;
+                for(int i = 0; i<theSpreadsheet.getNumRows(); i++){
+                    for(int j = 0; j<theSpreadsheet.getNumColumns(); j++){
+                        theSpreadsheet.getSpreadsheet()[i][j] = new Cell("");
+                    }
+                }
+            }
+
             br.close();
         } catch (IOException | Spreadsheet.CycleFoundException ioe) {
             ioe.printStackTrace();
@@ -273,7 +293,8 @@ public class SpreadsheetApp {
             });
 
         } catch (Spreadsheet.CycleFoundException ioe) {
-            System.out.println("TEST THERE IS A CYCLE");
+            System.out.println("ERROR: CYCLE FOUND");
+            cyclePresent = true;
         }
         return sortedCellArray;
     }
@@ -406,7 +427,7 @@ public class SpreadsheetApp {
                     menuReadSpreadsheet(theSpreadsheet);
                     break;
 
-                    case 's':
+                case 's':
                     menuSaveSpreadsheet(theSpreadsheet);
                     break;
 
