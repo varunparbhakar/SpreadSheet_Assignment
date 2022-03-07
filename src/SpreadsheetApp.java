@@ -93,6 +93,8 @@ public class SpreadsheetApp {
         String inputFormula;
         CellToken cellToken = new CellToken();
         Stack expTreeTokenStack;
+        Cell currentCell;
+        String previousFormula = "";
 
         boolean cellFound = false;
         while (!cellFound) {
@@ -118,8 +120,8 @@ public class SpreadsheetApp {
 //        menuPrintAllFormulas(theSpreadsheet);
 //        menuPrintValues(theSpreadsheet);
 //        System.out.println();
-        Cell currentCell = theSpreadsheet.getCellValue(cellToken);
-        String previousFormula = currentCell.getFormula();          //getting the old formula
+        currentCell = theSpreadsheet.getCellValue(cellToken);
+        previousFormula = currentCell.getFormula();          //getting the old formula
 
         //reset dependencies if cell token is not null
         if (cellToken != null) {
