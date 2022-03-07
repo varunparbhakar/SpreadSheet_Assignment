@@ -14,12 +14,22 @@ public class Spreadsheet {
         row = num;
         col = num;
         spreadsheet = new Cell[row][col];
+        for(int i = 0; i<num; i++){
+            for(int j = 0; j<num; j++){
+                spreadsheet[i][j] = insertItem(i, j, "");
+            }
+        }
     }
 
     public Spreadsheet(int row, int col){
         Spreadsheet.row = row;
         Spreadsheet.col = col;
         spreadsheet = new Cell[row][col];
+        for(int i = 0; i<row; i++){
+            for(int j = 0; j<col; j++){
+                spreadsheet[i][j] = insertItem(i, j, "");
+            }
+        }
     }
 
     /**
@@ -142,11 +152,11 @@ public class Spreadsheet {
         //Create a new cell with formula string from user input
         //assign new cell to the cell token address
         //the current cell will be updated with new formula string
-        Cell myCell = new Cell(formula);
+//        Cell myCell = new Cell(formula);
 
         int rowNumber = cellToken.getRow();
         int colNumber = cellToken.getColumn();
-        spreadsheet[rowNumber][colNumber] = myCell;
+        Cell myCell = spreadsheet[rowNumber][colNumber];
 
         //build expression tree from the stack
         ExpressionTree expressionTree = new ExpressionTree(null);
@@ -256,6 +266,7 @@ public class Spreadsheet {
         }
 
         if (counter != (getNumColumns() * getNumRows())){
+
             throw new CycleFoundException("Cycle found");
         }
 
