@@ -5,7 +5,6 @@
  * @author Donald Chinn
  */
 
-import javax.print.MultiDocPrintService;
 import java.io.*;
 import java.util.*;
 
@@ -101,7 +100,7 @@ public class SpreadsheetApp {
             CellToken.getCellToken(inputCell, 0, cellToken);
 
             //Error check to make sure the row and column are within spreadsheet array bounds.
-            if(checkCellBound(theSpreadsheet, cellToken)) {
+            if (checkCellBound(theSpreadsheet, cellToken)) {
                 cellFound = true;
             } else {
                 System.out.println("ERROR: INVALID CELL");
@@ -111,11 +110,6 @@ public class SpreadsheetApp {
         System.out.print("\nEnter the cell's new formula: ");
         inputFormula = readString().toUpperCase();
 
-//        //Print the value of spreadsheet before reevaluation
-//        System.out.println("Spreadsheet before reevaluation ");
-//        menuPrintAllFormulas(theSpreadsheet);
-//        menuPrintValues(theSpreadsheet);
-//        System.out.println();
         Cell currentCell = theSpreadsheet.getCellValue(cellToken);
         String previousFormula = currentCell.getFormula();          //getting the old formula
 
@@ -128,7 +122,7 @@ public class SpreadsheetApp {
         currentCell = theSpreadsheet.getCellValue(cellToken);
 
 
-        if(currentCell == null){
+        if (currentCell == null) {
             currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
         }
 
@@ -139,16 +133,11 @@ public class SpreadsheetApp {
         //recalculate whole spreadsheet
         recalculateSpreadsheet(theSpreadsheet);
 
-        if(cyclePresent){
+        if (cyclePresent) {
             cyclePresent = false;
             currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), previousFormula);
         }
 
-//        //Print the value of spreadsheet after reevaluation
-//        System.out.println("Spreadsheet after reevaluation ");
-//        menuPrintAllFormulas(theSpreadsheet);
-//        menuPrintValues(theSpreadsheet);
-//        System.out.println();
 
         /*
         // This code prints out the expression stack from
@@ -182,52 +171,58 @@ public class SpreadsheetApp {
             String inputFormula;
             String inputCell;
 
-            //read txt file and add item into the spreadsheet
-            while ((line = br.readLine()) != null) {
-                //read the line and split "A1 : 10" into an array [A1,10]
-                tempArr = line.split(":");
-                inputCell = tempArr[0];             //A1
-                inputFormula = tempArr[1];          //10
+            if (theSpreadsheet.getNumColumns() >= 4 && theSpreadsheet.getNumRows() >= 4) {
+                //read txt file and add item into the spreadsheet
+                while ((line = br.readLine()) != null) {
+                    //read the line and split "A1 : 10" into an array [A1,10]
+                    tempArr = line.split(":");
+                    inputCell = tempArr[0];             //A1
+                    inputFormula = tempArr[1];          //10
 
-                //if formula is "null", set empty ""
-                if(inputFormula.equals("null")){
-                    inputFormula = "";
+                    //if formula is "null", set empty ""
+                    if (inputFormula.equals("null")) {
+                        inputFormula = "";
+                    }
+
+                    //get the cell token from the String "A1". This is the address of the cell.
+                    CellToken.getCellToken(inputCell, 0, cellToken);
+
+                    //Error check to make sure the row and column are within spreadsheet array bounds.
+                    checkCellBound(theSpreadsheet, cellToken);
+                    theSpreadsheet.creatCell(cellToken, inputFormula);
+                    //Create cell from cell token
+                    Cell currentCell = theSpreadsheet.getCellValue(cellToken);
+
+                    //Creat a stack of expression from the formula
+                    expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
+                    ExpressionTree expressionTree = new ExpressionTree(null);
+                    expressionTree.BuildExpressionTree(expTreeTokenStack);
+                    currentCell.setExpressionTree(expressionTree);
+
+                    //Create a new cell from the token with value, formula and dependency
+                    //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
+
+                    //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
                 }
 
-                //get the cell token from the String "A1". This is the address of the cell.
-                CellToken.getCellToken(inputCell, 0, cellToken);
+                //recalculate whole spreadsheet
+                recalculateSpreadsheet(theSpreadsheet);
 
-                //Error check to make sure the row and column are within spreadsheet array bounds.
-                checkCellBound(theSpreadsheet, cellToken);
-                theSpreadsheet.creatCell(cellToken, inputFormula);
-                //Create cell from cell token
-                Cell currentCell = theSpreadsheet.getCellValue(cellToken);
-
-                //Creat a stack of expression from the formula
-                expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
-                ExpressionTree expressionTree = new ExpressionTree(null);
-                expressionTree.BuildExpressionTree(expTreeTokenStack);
-                currentCell.setExpressionTree(expressionTree);
-
-                //Create a new cell from the token with value, formula and dependency
-                //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
-
-                //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
-            }
-
-            //recalculate whole spreadsheet
-            recalculateSpreadsheet(theSpreadsheet);
-
-            if(cyclePresent){       //resetting spreadsheet if a cycle is found
-                cyclePresent = false;
-                for(int i = 0; i<theSpreadsheet.getNumRows(); i++){
-                    for(int j = 0; j<theSpreadsheet.getNumColumns(); j++){
-                        theSpreadsheet.getSpreadsheet()[i][j] = new Cell("");
+                if (cyclePresent) {       //resetting spreadsheet if a cycle is found
+                    cyclePresent = false;
+                    for (int i = 0; i < theSpreadsheet.getNumRows(); i++) {
+                        for (int j = 0; j < theSpreadsheet.getNumColumns(); j++) {
+                            theSpreadsheet.getSpreadsheet()[i][j] = new Cell("");
+                        }
                     }
                 }
-            }
 
-            br.close();
+                br.close();
+            } else {
+                System.out.println("WARNING!!!");
+                System.out.println("The spreadsheet has less rows or columns than the txt file.");
+                System.out.println("The file is not imported.");
+            }
         } catch (IOException | Spreadsheet.CycleFoundException ioe) {
             ioe.printStackTrace();
         }
@@ -243,7 +238,7 @@ public class SpreadsheetApp {
     private static void resettingDependencies(Spreadsheet theSpreadsheet, CellToken cellToken, String inputFormula) {
         //Update new formula to the current cell
         Cell cell = theSpreadsheet.getCellValue(cellToken);
-        if(cell == null){
+        if (cell == null) {
             cell = new Cell("");
         }
         cell.setFormula(inputFormula);
@@ -313,7 +308,7 @@ public class SpreadsheetApp {
         //call evaluate method for each of the cells in the arrayList
 
         Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
-        for(Cell cell: sortedCellArray){
+        for (Cell cell : sortedCellArray) {
             String formula = cell.getFormula();
 
             //Make a stack of expression
@@ -322,36 +317,11 @@ public class SpreadsheetApp {
             //Build expression tree from the stack of expression
 
             //Evaluate the expression tree then Update value to the current cell
-            if(cell.getFormula() != ""){
+            if (cell.getFormula() != "") {
                 int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
                 cell.setValue(calculationResult);
             }
         }
-
-        /*for (Cell cellArray : sortedCellArray) {
-            for (Cell[] cRow : spreadsheet) {
-                for (Cell cell : cRow) {
-                    String formulaOfCellSpreadsheet = cell.getFormula();
-                    String formulaOfCellArray = cellArray.getFormula();
-                    if (formulaOfCellSpreadsheet == formulaOfCellArray) {
-                        //Get the string formula in the current cell
-                        String formula = cell.getFormula();
-
-                        //Make a stack of expression
-                        Stack expTreeTokenStack = Token.getFormula(formula, theSpreadsheet, cell);
-
-                        //Build expression tree from the stack of expression
-                        ExpressionTree expressionTree = new ExpressionTree(null);
-                        expressionTree.BuildExpressionTree(expTreeTokenStack);
-
-                        //Evaluate the expression tree then Update value to the current cell
-                        int calculationResult = expressionTree.Evaluate(theSpreadsheet);
-                        cell.setValue(calculationResult);
-                    }
-                }
-            }
-        }*/
-
     }
 
     /**
@@ -445,6 +415,7 @@ public class SpreadsheetApp {
 
         System.out.println("Thank you for using our spreadsheet.");
     }
+
     public static Spreadsheet setupSpreadsheet() {
         String usInput = "";
 
@@ -452,7 +423,7 @@ public class SpreadsheetApp {
         System.out.println();
 
         boolean userSelected = false;
-        while(!userSelected) {
+        while (!userSelected) {
             System.out.println("\nPlease select how would you like to setup your spreadsheet?");
             System.out.println("1. Square");
             System.out.println("2. Custom Rows and Columns");
@@ -464,7 +435,7 @@ public class SpreadsheetApp {
                     //Square Spreadsheet
                     System.out.println("You have selected a Square Spreadsheet");
                     int size = validateSelection("Please enter the size of the spreadsheet: ");
-                    if(size == Integer.MIN_VALUE) {
+                    if (size == Integer.MIN_VALUE) {
                         break; //User has selected back
                     } else {
                         userSelected = true;
@@ -472,22 +443,22 @@ public class SpreadsheetApp {
                     }
 
 
-                case("2"):
+                case ("2"):
                     System.out.println("You have selected a Custom spreadsheet");
                     int numberOfRows = validateSelection("Please enter the number of rows: ");
 
-                    if(numberOfRows == Integer.MIN_VALUE) { //User wants to go back
+                    if (numberOfRows == Integer.MIN_VALUE) { //User wants to go back
                         break;
                     }
                     int numberOfColumns = validateSelection("Please enter the number of Columns: ");
 
-                    if(numberOfRows == Integer.MIN_VALUE) { //User wants to go back
+                    if (numberOfRows == Integer.MIN_VALUE) { //User wants to go back
                         break;
                     }
                     userSelected = true;
                     return new Spreadsheet(numberOfRows, numberOfColumns);
 
-                case("3"):
+                case ("3"):
                     String squareString = """
                             \n1. Square option allows you to create a spreadsheet with the same amount of rows
                             and columns, you will have to enter a single integer value.""";
@@ -507,21 +478,23 @@ public class SpreadsheetApp {
         }
         return new Spreadsheet(4);
     }
-    public static boolean validateNumber (String theString) {
+
+    public static boolean validateNumber(String theString) {
         for (int i = 0; i < theString.length(); i++) {
-            if(theString.charAt(i) > 57 || theString.charAt(i) < 48) {
+            if (theString.charAt(i) > 57 || theString.charAt(i) < 48) {
                 System.out.println("ERROR: Please enter valid input");
                 return false;
             }
         }
         return true;
     }
+
     public static int validateSelection(String displayMessage) {
         String customSelection = "";
         Scanner scan = new Scanner(System.in);
         int userNumber = 0;
         boolean inputFound = false;
-        while(!inputFound) {
+        while (!inputFound) {
             System.out.println("\nPress 'B' to go back.");
             System.out.print(displayMessage);
             customSelection = scan.next();
@@ -530,8 +503,8 @@ public class SpreadsheetApp {
                     inputFound = true;
                     return Integer.MIN_VALUE;
                 default:
-                    if(validateNumber(customSelection)) {
-                        if(Integer.parseInt(customSelection) != 0 && Integer.parseInt(customSelection) < 27) {
+                    if (validateNumber(customSelection)) {
+                        if (Integer.parseInt(customSelection) != 0 && Integer.parseInt(customSelection) < 27) {
                             return Integer.parseInt(customSelection);
                         } else {
                             System.out.println("Please enter a size between 1 and 26");
@@ -539,7 +512,8 @@ public class SpreadsheetApp {
                     }
 
             }
-        }return  userNumber;
+        }
+        return userNumber;
     }
 
 }

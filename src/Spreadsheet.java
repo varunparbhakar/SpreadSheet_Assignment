@@ -94,29 +94,6 @@ public class Spreadsheet {
             Cell currentCell = new Cell(formula);
             spreadsheet[rowNumber][colNumber] = currentCell;
         }
-
-
-
-//        //Add dependencies
-//        Cell newCell = new Cell(formula);
-//        while (!expTreeTokenStack.isEmpty()){
-//            //pop and get the Cell Token from the stack of expression
-//            CellToken newCellToken = new CellToken();
-//            Object newObject = expTreeTokenStack.topAndPop();
-//
-//            //For the cell token, create a new cell, then add dependencies to current cell and new cell
-//            if(newObject instanceof CellToken){
-//                newCellToken = (CellToken) newObject;
-//                int newRowNumber = newCellToken.getRow();
-//                int newColNumber = newCellToken.getColumn();
-//                spreadsheet[newRowNumber][newColNumber] = newCell;
-//
-//                System.out.println("Current cell " + CellToken.printCellToken(cellToken));
-//                System.out.println("New cell " + CellToken.printCellToken(newCellToken));
-//                addDependencies(currentCell, newCell);
-//            }
-//            System.out.println();
-//        }
     }
 
     /**
@@ -133,11 +110,6 @@ public class Spreadsheet {
         }
         newCell.addFeedInto(currentCell);       //adding to the different dependency graph
         currentCell.addDependency(newCell);
-
-//        System.out.println("Current cell depends on " + currentCell.getDependsOn().toString());
-//        System.out.println("Current cell Feed Into " + currentCell.getFeedsInto().toString());
-//        System.out.println("New cell depends on " + newCell.getDependsOn().toString());
-//        System.out.println("New cell Feed Into " + newCell.getFeedsInto().toString());
     }
 
     /**
@@ -282,7 +254,7 @@ public class Spreadsheet {
     public void printHeader(){
         char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
-        for(int i = 0; i <= spreadsheet.length; i++){
+        for(int i = 0; i <= getNumColumns(); i++){
             String str = String.format("%-7c", alphabet[i]);
             System.out.format(str);
         }
