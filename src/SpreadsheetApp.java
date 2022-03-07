@@ -94,6 +94,7 @@ public class SpreadsheetApp {
         Stack expTreeTokenStack;
         Cell currentCell;
         String previousFormula = "";
+        int previousValue = 0;
 
         boolean cellFound = false;
         while (!cellFound) {
@@ -122,6 +123,7 @@ public class SpreadsheetApp {
 //        System.out.println();
         currentCell = theSpreadsheet.getCellValue(cellToken);
         previousFormula = currentCell.getFormula();          //getting the old formula
+            previousValue = currentCell.getValue();            //getting the old value
 
         //reset dependencies if cell token is not null
         if (cellToken != null) {
@@ -166,6 +168,7 @@ public class SpreadsheetApp {
         if (cyclePresent) {
             cyclePresent = false;
             currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), previousFormula);
+            currentCell.setValue(previousValue);
         }
 
 
