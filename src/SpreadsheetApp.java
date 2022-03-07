@@ -367,8 +367,6 @@ public class SpreadsheetApp {
 
             //Evaluate the expression tree then Update value to the current cell
             if (cell.getFormula() != "") {
-                System.out.println("\n" + cell);
-                System.out.println(cell.getFormula());
                 int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
                 cell.setValue(calculationResult);
             }
