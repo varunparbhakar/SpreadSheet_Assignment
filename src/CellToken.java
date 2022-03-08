@@ -1,3 +1,9 @@
+/**
+ * This CellToken class manages the cell reference tokens.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
+
 public class CellToken extends Token {
     public static final int BadCell = -1;
     private int column; // column A = 0, B = 1, etc.
@@ -158,18 +164,34 @@ public class CellToken extends Token {
         return returnString;
     }
 
+    /**
+     * This method returns number of rows.
+     * @return
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * This method sets number of rows.
+     * @return
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * This method returns number of columns.
+     * @return
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * This method sets number of columns.
+     * @return
+     */
     public void setColumn(int column) {
         this.column = column;
     }
