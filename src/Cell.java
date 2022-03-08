@@ -1,15 +1,26 @@
-import java.util.LinkedList;
 
+import java.util.LinkedList; //Importing LinkedLists
+
+/**
+ * This cell class is responsible for holding the main properties of a cell in a
+ * spreadsheet.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class Cell {
     private final LinkedList<Cell> dependsOn;       //the cells that this cell depends on
     private final LinkedList<Cell> feedsInto;       //the cells that depend on this cell
     private String formula;
     private int value;
-    private int topNum;
+    private int topNum;                             // Topological rank
     private int indegree;
     // the expression tree below represents the formula
     private ExpressionTree expressionTree;
 
+    /**
+     * Constructor for Cell.
+     * @param theValue
+     */
     public Cell(String theValue) {
         formula = theValue;
         dependsOn = new LinkedList<>();
@@ -126,26 +137,50 @@ public class Cell {
         return false;
     }
 
+    /**
+     * This method returns topological ordering number.
+     * @return
+     */
     public int getTopNum() {
         return topNum;
     }
 
+    /**
+     * This method sets topological ordering number.
+     * @return
+     */
     public void setTopNum(int topNum) {
         this.topNum = topNum;
     }
 
+    /**
+     * This method returns indegree.
+     * @return
+     */
     public int getIndegree() {
         return indegree;
     }
 
+    /**
+     * This method sets indegree.
+     * @return
+     */
     public void setIndegree(int indegree) {
         this.indegree = indegree;
     }
 
+    /**
+     * This method returns expressionTree.
+     * @return
+     */
     public ExpressionTree getExpressionTree() {
         return expressionTree;
     }
 
+    /**
+     * This method sets expressionTree.
+     * @return
+     */
     public void setExpressionTree(ExpressionTree expressionTree) {
         this.expressionTree = expressionTree;
     }
@@ -173,10 +208,18 @@ public class Cell {
         return;
     }
 
+    /**
+     * This method clears the dependencies .
+     * @return
+     */
     public void clearDependencies() {
         dependsOn.removeAll(dependsOn);
     }
 
+    /**
+     * This method returns the value of the cell.
+     * @return
+     */
     public int getValue() {
         return value;
     }
@@ -190,12 +233,16 @@ public class Cell {
         this.value = value;
     }
 
+    /**
+     * This method returns number of dependencies.
+     * @return
+     */
     public int getNumDependencies() {
         return dependsOn.size();
     }
 
     /**
-     * Get dependsOn
+     * This method returns the linkedlist dependsOn.
      *
      * @return dependsOn
      */
@@ -204,7 +251,7 @@ public class Cell {
     }
 
     /**
-     * Get getFeedsInto
+     * This method returns the linkedlist feedsInto.
      *
      * @return feedsInto
      */
@@ -212,6 +259,10 @@ public class Cell {
         return feedsInto;
     }
 
+    /**
+     * This method returns the formula of the cell.
+     * @return
+     */
     public String getFormula() {
         return formula;
     }
@@ -225,6 +276,10 @@ public class Cell {
         this.formula = formula;
     }
 
+    /**
+     * To String method that prints the formula
+     * @return
+     */
     @Override
     public String toString() {
         return formula;
