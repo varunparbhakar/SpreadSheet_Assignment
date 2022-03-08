@@ -1,7 +1,7 @@
-
-
 /**
  * This class is a substitute for a Java.util.Stack.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
  */
 public class Stack {
     /**

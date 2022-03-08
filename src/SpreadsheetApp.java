@@ -5,9 +5,15 @@
  * @author Donald Chinn
  */
 
+
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class is custom implementation of java.util.Queue.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class SpreadsheetApp {
 
     /**
@@ -20,6 +26,10 @@ public class SpreadsheetApp {
 
     private static boolean cyclePresent = false;
 
+    /**
+     * Method to simplify reading a string
+     * @return
+     */
     public static String readString() {
         BufferedReader inputReader;
         String returnString = "";
@@ -146,6 +156,7 @@ public class SpreadsheetApp {
             try {
                 expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
                 Stack expressionTreeCopy = expTreeTokenStack.copy();
+                //Checking if the user input formula is valid
                 if (expressionTreeCopy.size() != 0) {
 
                     theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack);
@@ -246,6 +257,8 @@ public class SpreadsheetApp {
                         //Create a stack of expression from the formula
                         expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
                         Stack expressionTreeCopy = expTreeTokenStack.copy();
+
+                        //Checking if the user input formula is valid
                         if (expressionTreeCopy.size() != 0) {
                             ExpressionTree expressionTree = new ExpressionTree(null);
                             expressionTree.BuildExpressionTree(expTreeTokenStack);
@@ -386,10 +399,19 @@ public class SpreadsheetApp {
                 (cellToken.getColumn() < theSpreadsheet.getNumColumns());
     }
 
+    /**
+     * Method to save the spreadsheet.
+     * @param theSpreadSheet
+     */
     public static void menuSaveSpreadsheet(Spreadsheet theSpreadSheet) {
         theSpreadSheet.exportSpreadSheet();
     }
 
+    /**
+     * Driver method for the SpreadsheetApp class.
+     * @param args
+     * @throws Spreadsheet.CycleFoundException
+     */
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
         //Setup the Spreadsheet
         Spreadsheet theSpreadsheet = setupSpreadsheet();        //creates a new spreadsheet (USER LIMITED TO 26 ROWS AND COLUMNS)
@@ -460,21 +482,26 @@ public class SpreadsheetApp {
         System.out.println("Thank you for using our spreadsheet.");
     }
 
+    /**
+     * This method is used to so the user can setup the spreadsheet to their likings.
+     * @return
+     */
     public static Spreadsheet setupSpreadsheet() {
-        String usInput = "";
+        String userInputString = "";
 
         System.out.println(">>> Welcome to the TCSS 342 Spreadsheet <<<");
         System.out.println();
 
-        boolean userSelected = false;
+        boolean userSelected = false; // if the suer has made a selection
+        //Main menu
         while (!userSelected) {
             System.out.println("\nPlease select how would you like to setup your spreadsheet?");
             System.out.println("1. Square");
             System.out.println("2. Custom Rows and Columns");
             System.out.println("3. Help");
             System.out.print("\nPlease select(1/2/3): ");
-            usInput = readString();
-            switch (usInput) {
+            userInputString = readString();
+            switch (userInputString) {
                 case ("1"):
                     //Square Spreadsheet
                     System.out.println("You have selected a Square Spreadsheet");
@@ -488,6 +515,7 @@ public class SpreadsheetApp {
 
 
                 case ("2"):
+                    //Custom Spreadsheet
                     System.out.println("You have selected a Custom spreadsheet");
                     int numberOfRows = validateSelection("Please enter the number of rows: ");
 
@@ -503,6 +531,7 @@ public class SpreadsheetApp {
                     return new Spreadsheet(numberOfRows, numberOfColumns);
 
                 case ("3"):
+                    // User needs help
                     String squareString = """
                             \n1. Square option allows you to create a spreadsheet with the same amount of rows
                             and columns, you will have to enter a single integer value.""";
@@ -516,6 +545,7 @@ public class SpreadsheetApp {
                     System.out.println(customString);
                     break;
                 default:
+                    //None of the options were selected
                     System.out.println("\nERROR: Please enter correct a number corresponding to the option\n");
             }
 
@@ -523,6 +553,11 @@ public class SpreadsheetApp {
         return new Spreadsheet(4);
     }
 
+    /**
+     * This method validates a number from a string.
+     * @param theString
+     * @return
+     */
     public static boolean validateNumber(String theString) {
         for (int i = 0; i < theString.length(); i++) {
             if (theString.charAt(i) > 57 || theString.charAt(i) < 48) {
@@ -533,6 +568,11 @@ public class SpreadsheetApp {
         return true;
     }
 
+    /**
+     * This method validates the user input, also allowing user to go back to the previous menu.
+     * @param displayMessage
+     * @return
+     */
     public static int validateSelection(String displayMessage) {
         String customSelection = "";
         Scanner scan = new Scanner(System.in);
@@ -545,7 +585,7 @@ public class SpreadsheetApp {
             switch (customSelection.toLowerCase()) {
                 case ("b"):
                     inputFound = true;
-                    return Integer.MIN_VALUE;
+                    return Integer.MIN_VALUE; //Sentinel value to indicate the user wants to go back
                 default:
                     if (validateNumber(customSelection)) {
                         if (Integer.parseInt(customSelection) != 0 && Integer.parseInt(customSelection) < 27) {
@@ -561,3 +601,4 @@ public class SpreadsheetApp {
     }
 
 }
+//END
