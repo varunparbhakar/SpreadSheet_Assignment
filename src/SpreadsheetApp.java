@@ -334,7 +334,7 @@ public class SpreadsheetApp {
     }
 
     /**
-     * Return an array list of sorted cell
+     * Return an array list of sorted cells based on the topological order
      *
      * @param theSpreadsheet current spreadsheet
      * @return ArrayList of cells sorted based on their dependencies
@@ -353,6 +353,7 @@ public class SpreadsheetApp {
                 }
             }
 
+            //comparing the cells by topological number
             Collections.sort(sortedCellArray, new Comparator<Cell>() {
                 @Override
                 public int compare(Cell o1, Cell o2) {
