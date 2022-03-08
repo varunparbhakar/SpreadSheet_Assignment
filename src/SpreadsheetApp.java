@@ -94,6 +94,8 @@ public class SpreadsheetApp {
         Stack expTreeTokenStack;
         Cell currentCell;
         String previousFormula = "";
+        LinkedList<Cell> previousFeedsIntoList = new LinkedList<>();
+        LinkedList<Cell> previousDependsList = new LinkedList<>();
         int previousValue = 0;
 
         boolean cellFound = false;
@@ -118,6 +120,14 @@ public class SpreadsheetApp {
             currentCell = theSpreadsheet.getCellValue(cellToken);
             previousFormula = currentCell.getFormula();          //getting the old formula
             previousValue = currentCell.getValue();            //getting the old value
+
+
+            for(Cell c: currentCell.getDependsOn()){
+                previousDependsList.add(c);
+            }
+            for(Cell c: currentCell.getFeedsInto()){
+                previousFeedsIntoList.add(c);
+            }
 
             //reset dependencies if cell token is not null
             if (cellToken != null) {
@@ -159,10 +169,37 @@ public class SpreadsheetApp {
 
         if (cyclePresent) {
             cyclePresent = false;
-            currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), previousFormula);
+
+            currentCell = theSpreadsheet.getCellValue(cellToken);
+            currentCell.setFormula(previousFormula);
             currentCell.setValue(previousValue);
+            LinkedList<Cell> newDependsList = currentCell.getDependsOn();
+            LinkedList<Cell> newFeedsList = currentCell.getFeedsInto();
+
+            //removing from the feeds list of called cell
+            for(Cell c: newDependsList){
+                LinkedList<Cell> feedsList = c.getFeedsInto();
+                for(Cell cell: feedsList){
+                    if(cell.equals(currentCell)){
+                        feedsList.remove(cell);
+                    }
+                }
+            }
+
+            //removing dependencies from reverted cell
+            newDependsList.removeAll(newDependsList);
+            for(Cell c: previousDependsList){
+                newDependsList.add(c);
+            }
+
+            newFeedsList.removeAll(newFeedsList);
+            for(Cell c: previousFeedsIntoList){
+                newFeedsList.add(c);
+            }
+
         }
     }
+
 
     /**
      * read the .txt file and import cell value to the spreadsheet
