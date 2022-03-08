@@ -216,7 +216,7 @@ public class Spreadsheet {
     }
 
     /**
-     * sorts the cells in the spreadsheet in topological order and evaluates the cells values while the sorting is occurring
+     * sorts the cells in the spreadsheet in topological order based on the number of dependencies each has
      *
      * @throws CycleFoundException
      */
