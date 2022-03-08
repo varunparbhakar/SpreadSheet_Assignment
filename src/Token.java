@@ -1,3 +1,8 @@
+/**
+ * This class is a responsible for all the basic functions of a token object.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class Token {
 
     /**
@@ -182,4 +187,5 @@ public class Token {
     }
 
 }
+//END
 
