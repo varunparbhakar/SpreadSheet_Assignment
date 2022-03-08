@@ -116,7 +116,7 @@ public class ExpressionTree {
     }
 
     /**
-     *
+     * This method is used to traverse the expression tree.
      * @param s
      */
     public ExpressionTreeNode GetExpressionTree(Stack s) {
