@@ -1,8 +1,17 @@
+/**
+ * The ExpressionTree class manages the ExpressionTree object.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class ExpressionTree {
 
-    private ExpressionTreeNode root;
+    private ExpressionTreeNode root; //Root of the Expression Node
 
 
+    /**
+     * This is constructor for ExpressionTree
+     * @param root
+     */
     public ExpressionTree(ExpressionTreeNode root) {
         this.root = root;
     }
@@ -95,7 +104,10 @@ public class ExpressionTree {
 
     }
 
-    // Build an expression tree from a stack of ExpressionTreeTokens
+    /**
+     * Build an expression tree from a stack of ExpressionTreeTokens
+     * @param s
+     */
     void BuildExpressionTree(Stack s) {
         root = GetExpressionTree(s);
         if (!s.isEmpty()) {
@@ -103,6 +115,10 @@ public class ExpressionTree {
         }
     }
 
+    /**
+     *
+     * @param s
+     */
     public ExpressionTreeNode GetExpressionTree(Stack s) {
         ExpressionTreeNode returnTree;
         Token token;
