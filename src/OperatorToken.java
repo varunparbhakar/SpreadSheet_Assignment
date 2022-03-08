@@ -1,3 +1,8 @@
+/**
+ * The Operator token class manages the Operator token object.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class OperatorToken extends Token {
     public static final char Plus = '+';
     public static final char Minus = '-';
@@ -5,8 +10,12 @@ public class OperatorToken extends Token {
     public static final char Div = '/';
     public static final char LeftParen = '(';
 
-    private final char operatorToken;
+    private final char operatorToken; //Char representation of the operator
 
+    /**
+     * Constructor for operator token class.
+     * @param operatorToken
+     */
     public OperatorToken(char operatorToken) {
         this.operatorToken = operatorToken;
     }
@@ -76,7 +85,7 @@ public class OperatorToken extends Token {
         }
     }
 
-    /*
+    /**
      * Return the priority of this OperatorToken.
      *
      * priorities:
@@ -84,7 +93,7 @@ public class OperatorToken extends Token {
      *   *, / : 1
      *   (    : 2
      *
-     * @return  the priority of operatorToken
+     * @return the priority of operatorToken
      */
     public int priority() {
         switch (this.operatorToken) {
@@ -109,6 +118,10 @@ public class OperatorToken extends Token {
 
     }
 
+    /**
+     * toString for operator token.
+     * @return
+     */
     @Override
     public String toString() {
         return Character.toString(operatorToken);
