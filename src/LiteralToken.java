@@ -1,9 +1,11 @@
 public class LiteralToken extends Token {
-    private int value;
+    private final int value;
 
-    public LiteralToken(int value){this.value = value;};
+    public LiteralToken(int value) {
+        this.value = value;
+    }
 
-    public static int getValue(LiteralToken litToken){
+    public static int getValue(LiteralToken litToken) {
         return litToken.value;
     }
 

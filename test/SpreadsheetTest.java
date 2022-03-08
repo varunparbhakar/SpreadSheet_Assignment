@@ -39,7 +39,7 @@ class SpreadsheetTest {
         Cell currentCell = theSpreadsheet.getCellValue(cellToken);
 
         expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
-        theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+        theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack);
 
         Cell myCell = new Cell(inputFormula);
         myCell = theSpreadsheet.getCellValue(cellToken);

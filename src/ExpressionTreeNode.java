@@ -1,20 +1,20 @@
 public class ExpressionTreeNode {
-    private Token token;
     ExpressionTreeNode left;
     ExpressionTreeNode right;
-  
+    private Token token;
 
-    public ExpressionTreeNode(){
+
+    public ExpressionTreeNode() {
         token = new Token();
         this.left = null;
         this.right = null;
     }
 
-  public ExpressionTreeNode(Token token, ExpressionTreeNode left, ExpressionTreeNode right) {
-      this.token = token;
-      this.left = left;
-      this.right = right;
-  }
+    public ExpressionTreeNode(Token token, ExpressionTreeNode left, ExpressionTreeNode right) {
+        this.token = token;
+        this.left = left;
+        this.right = right;
+    }
 
 
     public Token getToken() {

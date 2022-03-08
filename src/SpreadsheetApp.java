@@ -115,28 +115,20 @@ public class SpreadsheetApp {
             System.out.print("\nEnter the cell's new formula: ");
             inputFormula = readString().toUpperCase();
 
-
-//        //Print the value of spreadsheet before reevaluation
-//        System.out.println("Spreadsheet before reevaluation ");
-//        menuPrintAllFormulas(theSpreadsheet);
-//        menuPrintValues(theSpreadsheet);
-//        System.out.println();
-        currentCell = theSpreadsheet.getCellValue(cellToken);
-        previousFormula = currentCell.getFormula();          //getting the old formula
+            currentCell = theSpreadsheet.getCellValue(cellToken);
+            previousFormula = currentCell.getFormula();          //getting the old formula
             previousValue = currentCell.getValue();            //getting the old value
 
-        //reset dependencies if cell token is not null
-        if (cellToken != null) {
-            resettingDependencies(theSpreadsheet, cellToken, inputFormula);
-        }
+            //reset dependencies if cell token is not null
+            if (cellToken != null) {
+                resettingDependencies(theSpreadsheet, cellToken, inputFormula);
+            }
 
-        //Create cell from cell token
-        currentCell = theSpreadsheet.getCellValue(cellToken);
 
             //Create cell from cell token
             currentCell = theSpreadsheet.getCellValue(cellToken);
 
-            if(currentCell == null){
+            if (currentCell == null) {
                 currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), inputFormula);
             }
 
@@ -144,11 +136,11 @@ public class SpreadsheetApp {
             try {
                 expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
                 Stack expressionTreeCopy = expTreeTokenStack.copy();
-                if(expressionTreeCopy.size() != 0) {
+                if (expressionTreeCopy.size() != 0) {
 
-                    theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
+                    theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack);
 
-                    if(expressionTreeCopy.size() > 2) {
+                    if (expressionTreeCopy.size() > 2) {
                         Cell.validateInputFormula(expressionTreeCopy, inputFormula);
                     }
                     correctInput = true;
@@ -170,20 +162,6 @@ public class SpreadsheetApp {
             currentCell = theSpreadsheet.insertItem(cellToken.getRow(), cellToken.getColumn(), previousFormula);
             currentCell.setValue(previousValue);
         }
-
-
-        /*
-        // This code prints out the expression stack from
-        // top to bottom (that is, reverse of postfix).
-        while (!expTreeTokenStack.isEmpty())
-        {
-            expTreeToken = expTreeTokenStack.topAndPop();
-            printExpressionTreeToken(expTreeToken);
-        }
-        */
-
-        //changed this code - Add input formula
-        //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
     }
 
     /**
@@ -227,34 +205,27 @@ public class SpreadsheetApp {
                     Cell currentCell = theSpreadsheet.getCellValue(cellToken);
 
 
+                    try {
+                        //Create a stack of expression from the formula
+                        expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
+                        Stack expressionTreeCopy = expTreeTokenStack.copy();
+                        if (expressionTreeCopy.size() != 0) {
+                            ExpressionTree expressionTree = new ExpressionTree(null);
+                            expressionTree.BuildExpressionTree(expTreeTokenStack);
 
-                try{
-                    //Create a stack of expression from the formula
-                    expTreeTokenStack = Token.getFormula(inputFormula, theSpreadsheet, currentCell);
-                    Stack expressionTreeCopy = expTreeTokenStack.copy();
-                    if(expressionTreeCopy.size() != 0) {
-                        ExpressionTree expressionTree = new ExpressionTree(null);
-                        expressionTree.BuildExpressionTree(expTreeTokenStack);
-
-                        if(expressionTreeCopy.size() > 2) {
-                            Cell.validateInputFormula(expressionTreeCopy, inputFormula);
+                            if (expressionTreeCopy.size() > 2) {
+                                Cell.validateInputFormula(expressionTreeCopy, inputFormula);
+                            }
+                            currentCell.setExpressionTree(expressionTree);
+                        } else {
+                            throw new IllegalArgumentException("Stack is empty");
                         }
-                        currentCell.setExpressionTree(expressionTree);
-                    } else {
-                        throw new IllegalArgumentException("Stack is empty");
+
+
+                    } catch (Exception e) {
+                        System.out.println("ERROR: Invalid formula found at " + inputCell);
                     }
 
-
-                }catch (Exception e) {
-                    System.out.println("ERROR: Invalid formula found at " + inputCell);
-                }
-
-
-
-                    //Create a new cell from the token with value, formula and dependency
-                    //theSpreadsheet.creatCell(cellToken, inputFormula, expTreeTokenStack);
-
-                    //theSpreadsheet.changeCellFormulaAndRecalculate(cellToken, expTreeTokenStack, inputFormula, theSpreadsheet);
                 }
 
                 //recalculate whole spreadsheet
@@ -354,21 +325,10 @@ public class SpreadsheetApp {
      */
     private static void recalculateSpreadsheet(Spreadsheet theSpreadsheet) throws Spreadsheet.CycleFoundException {
         ArrayList<Cell> sortedCellArray = topSortDependency(theSpreadsheet);
-        CellToken cellToken = new CellToken();
-        Stack expTreeTokenStack;
 
         //call evaluate method for each of the cells in the arrayList
 
-        Cell[][] spreadsheet = theSpreadsheet.getSpreadsheet();
         for (Cell cell : sortedCellArray) {
-            String formula = cell.getFormula();
-
-            //Make a stack of expression
-
-
-            //Build expression tree from the stack of expression
-
-            //Evaluate the expression tree then Update value to the current cell
             if (cell.getFormula() != "") {
                 int calculationResult = cell.getExpressionTree().Evaluate(theSpreadsheet);
                 cell.setValue(calculationResult);
@@ -383,13 +343,10 @@ public class SpreadsheetApp {
      * @param cellToken      the address of the current cell
      */
     private static boolean checkCellBound(Spreadsheet theSpreadsheet, CellToken cellToken) {
-        if ((cellToken.getRow() < 0) ||
-                (cellToken.getRow() >= theSpreadsheet.getNumRows()) ||
-                (cellToken.getColumn() < 0) ||
-                (cellToken.getColumn() >= theSpreadsheet.getNumColumns())) {
-            return false;
-        }
-        return true;
+        return (cellToken.getRow() >= 0) &&
+                (cellToken.getRow() < theSpreadsheet.getNumRows()) &&
+                (cellToken.getColumn() >= 0) &&
+                (cellToken.getColumn() < theSpreadsheet.getNumColumns());
     }
 
     public static void menuSaveSpreadsheet(Spreadsheet theSpreadSheet) {
@@ -399,7 +356,6 @@ public class SpreadsheetApp {
     public static void main(String[] args) throws Spreadsheet.CycleFoundException {
         //Setup the Spreadsheet
         Spreadsheet theSpreadsheet = setupSpreadsheet();        //creates a new spreadsheet (USER LIMITED TO 26 ROWS AND COLUMNS)
-//        Spreadsheet theSpreadsheet = new Spreadsheet(4);
 
         boolean done = false;
         String command = "";
@@ -421,7 +377,6 @@ public class SpreadsheetApp {
 
             System.out.println();
             System.out.print("\nEnter your command: ");
-            //UPDATE
 
 
             command = readString().toLowerCase();

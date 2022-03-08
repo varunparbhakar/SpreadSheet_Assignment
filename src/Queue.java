@@ -2,29 +2,29 @@ import java.util.LinkedList;
 
 public class Queue {
 
-    private java.util.Queue myQueue;
+    private final java.util.Queue myQueue;
 
-    public Queue(){
+    public Queue() {
         myQueue = new LinkedList();
     }
 
-    public void makeEmpty(){
+    public void makeEmpty() {
         myQueue.removeAll(myQueue);
     }
 
-    public void enqueue(Cell cell){
+    public void enqueue(Cell cell) {
         myQueue.add(cell);
     }
 
-    public Cell dequeue(){
+    public Cell dequeue() {
         return (Cell) myQueue.remove();
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return myQueue.isEmpty();
     }
 
-    public int size(){
+    public int size() {
         return myQueue.size();
     }
 

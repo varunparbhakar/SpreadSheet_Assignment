@@ -2,10 +2,11 @@ public class Token {
 
     /**
      * Return a string associated with a token
-     * @param expTreeToken  an ExpressionTreeToken
+     *
+     * @param expTreeToken an ExpressionTreeToken
      * @return a String associated with expTreeToken
      */
-    static String printExpressionTreeToken (Token expTreeToken) {
+    static String printExpressionTreeToken(Token expTreeToken) {
         String returnString = "";
 
         if (expTreeToken instanceof OperatorToken) {
@@ -24,22 +25,22 @@ public class Token {
 
     /**
      * getFormula
-     *
+     * <p>
      * Given a string that represents a formula that is an infix
      * expression, return a stack of Tokens so that the expression,
      * when read from the bottom of the stack to the top of the stack,
      * is a postfix expression.
-     *
+     * <p>
      * A formula is defined as a sequence of tokens that represents
      * a legal infix expression.
-     *
+     * <p>
      * A token can consist of a numeric literal, a cell reference, or an
      * operator (+, -, *, /).
-     *
+     * <p>
      * Multiplication (*) and division (/) have higher precedence than
      * addition (+) and subtraction (-).  Among operations within the same
      * level of precedence, grouping is from left to right.
-     *
+     * <p>
      * This algorithm follows the algorithm described in Weiss, pages 105-108.
      */
     public static Stack getFormula(String formula, Spreadsheet theSpreadsheet, Cell currentCell) {
@@ -56,9 +57,9 @@ public class Token {
         int index = 0;  // index into formula
         Stack operatorStack = new Stack();  // stack of operators
 
-        while (index < formula.length() ) {
+        while (index < formula.length()) {
             // get rid of leading whitespace characters
-            while (index < formula.length() ) {
+            while (index < formula.length()) {
                 ch = formula.charAt(index);
                 if (!Character.isWhitespace(ch)) {
                     break;
@@ -66,7 +67,7 @@ public class Token {
                 index++;
             }
 
-            if (index == formula.length() ) {
+            if (index == formula.length()) {
                 error = true;
                 break;
             }
@@ -86,8 +87,8 @@ public class Token {
                         OperatorToken stackOperator;
                         while (!operatorStack.isEmpty()) {
                             stackOperator = (OperatorToken) operatorStack.top();
-                            if ( (stackOperator.priority() >= OperatorToken.operatorPriority(ch)) &&
-                                    (stackOperator.getOperatorToken() != OperatorToken.LeftParen) ) {
+                            if ((stackOperator.priority() >= OperatorToken.operatorPriority(ch)) &&
+                                    (stackOperator.getOperatorToken() != OperatorToken.LeftParen)) {
 
                                 // output the operator to the return stack
                                 operatorStack.pop();
@@ -148,25 +149,14 @@ public class Token {
                 } else {
                     Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
 
-                    if(currentCell == null) {
+                    if (currentCell == null) {
                         currentCell = new Cell("");     //creating an empty cell
                     }
-                    if(newCell == null){
-                        //newCell = new Cell("");
+                    if (newCell == null) {
                         newCell = theSpreadsheet.insertItem(cToken.getRow(), cToken.getColumn(), "");
-                    }/*else{
-                        newCell = theSpreadsheet.insertItem(cToken.getRow(), cToken.getColumn(), newCell.getFormula());
-                    }*/
+                    }
                     newCell.addFeedInto(currentCell);       //adding to the different dependency graph
                     currentCell.addDependency(newCell);
-
-                    /*Cell newCell = theSpreadsheet.getCellValue(cToken);     //getting the cell corresponding to the cellToken
-                    Cell oldCell = theSpreadsheet.getCellValue(cellToken);
-                    newCell.addFeedInto(oldCell);       //adding to the different dependency graph
-                    if(oldCell == null){
-                        oldCell = new Cell("");     //creating an empty cell
-                    }
-                    oldCell.addDependency(newCell);*/
 
                     // place the cell reference on the output stack
                     returnStack.push(cToken);

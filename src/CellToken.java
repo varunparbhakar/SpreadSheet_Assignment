@@ -1,25 +1,11 @@
 public class CellToken extends Token {
+    public static final int BadCell = -1;
     private int column; // column A = 0, B = 1, etc.
     private int row;
-    public static final int BadCell = -1;
-
-    public int getRow(){
-        return row;
-    }
-
-    public int getColumn(){
-        return column;
-    }
-
-    public void setRow(int row){    this.row = row;}
-
-    public void setColumn(int column){ this.column = column;}
-
-
 
     /**
      * getCellToken
-     *
+     * <p>
      * Assuming that the next chars in a String (at the given startIndex)
      * is a cell reference, set cellToken's column and row to the
      * cell's column and row.
@@ -29,17 +15,17 @@ public class CellToken extends Token {
      * the cell reference.
      * (Possible improvement: instead of returning a CellToken with row and
      * column equal to BadCell, throw an exception that indicates a parsing error.)
-     *
+     * <p>
      * A cell reference is defined to be a sequence of CAPITAL letters,
      * followed by a sequence of digits (0-9).  The letters refer to
      * columns as follows: A = 0, B = 1, C = 2, ..., Z = 25, AA = 26,
      * AB = 27, ..., AZ = 51, BA = 52, ..., ZA = 676, ..., ZZ = 701,
      * AAA = 702.  The digits represent the row number.
      *
-     * @param inputString  the input string
+     * @param inputString the input string
      * @param startIndex  the index of the first char to process
-     * @param cellToken  a cellToken (essentially a return value)
-     * @return  index corresponding to the position in the string just after the cell reference
+     * @param cellToken   a cellToken (essentially a return value)
+     * @return index corresponding to the position in the string just after the cell reference
      */
     static int getCellToken(String inputString, int startIndex, CellToken cellToken) {
         char ch;
@@ -48,14 +34,14 @@ public class CellToken extends Token {
         int index = startIndex;
 
         // handle a bad startIndex
-        if ((startIndex < 0) || (startIndex >= inputString.length() )) {
+        if ((startIndex < 0) || (startIndex >= inputString.length())) {
             cellToken.setColumn(BadCell);
             cellToken.setRow(BadCell);
             return index;
         }
 
         // get rid of leading whitespace characters
-        while (index < inputString.length() ) {
+        while (index < inputString.length()) {
             ch = inputString.charAt(index);
             if (!Character.isWhitespace(ch)) {
                 break;
@@ -83,7 +69,7 @@ public class CellToken extends Token {
             index++;
         }
 
-        while (index < inputString.length() ) {
+        while (index < inputString.length()) {
             ch = inputString.charAt(index);
             if (Character.isUpperCase(ch)) {
                 column = ((column + 1) * 26) + (ch - 'A');
@@ -92,7 +78,7 @@ public class CellToken extends Token {
                 break;
             }
         }
-        if (index == inputString.length() ) {
+        if (index == inputString.length()) {
             // reached the end of the string before fully parsing the cell reference
             cellToken.setColumn(BadCell);
             cellToken.setRow(BadCell);
@@ -112,7 +98,7 @@ public class CellToken extends Token {
             return index;
         }
 
-        while (index < inputString.length() ) {
+        while (index < inputString.length()) {
             ch = inputString.charAt(index);
             if (Character.isDigit(ch)) {
                 row = (row * 10) + (ch - '0');
@@ -129,12 +115,13 @@ public class CellToken extends Token {
     }
 
     /**
-     *  Given a CellToken, print it out as it appears on the
-     *  spreadsheet (e.g., "A3")
-     *  @param cellToken  a CellToken
-     *  @return  the cellToken's coordinates
+     * Given a CellToken, print it out as it appears on the
+     * spreadsheet (e.g., "A3")
+     *
+     * @param cellToken a CellToken
+     * @return the cellToken's coordinates
      */
-    public static String printCellToken (CellToken cellToken) {
+    public static String printCellToken(CellToken cellToken) {
         char ch;
         String returnString = "";
         int col;
@@ -157,7 +144,7 @@ public class CellToken extends Token {
             ch = (char) (((col / largest) - 1) + 'A');
             returnString += ch;
             col = col % largest;
-            largest = largest  / 26;
+            largest = largest / 26;
             number_of_digits--;
         }
 
@@ -169,6 +156,22 @@ public class CellToken extends Token {
         returnString += cellToken.getRow();
 
         return returnString;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 
 }
