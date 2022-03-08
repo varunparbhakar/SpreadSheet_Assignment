@@ -19,21 +19,23 @@ public class Stack {
     /**
      * This method fetches the last two numbers in a given array,
      * this method extracts the numbers from the given list and returns
-     * them in a list back to the user.
+     * a boolean indicating if the post fix expression is valid or not.
      *
      * @param theArray      (myStack's array implementation)
      * @param startingIndex (int, Starting Index)
-     * @return (int[], Array size 2 with the last 2 numbers)
+     * @return ()
      */
     public static boolean fetchLast2Values(Object[] theArray, int startingIndex) {
         //Counter for the numberArray
         int numberArrayCounter = 1;
-        boolean foundMinus = theArray[startingIndex].toString().equals("-");
+        boolean foundMinus = theArray[startingIndex].toString().equals("-"); //Minus operator has special properties
 
-        //Make sure the operator get taken out of the array first
 
         for (int i = startingIndex - 1; i >= 0; i--) {
+            // Looking for a number that hasn't been used for operation
             if (!theArray[i].equals("X")) {
+                // if minus is found then make the number right behind minus a negative
+                // XX3- = -3
                 if (foundMinus) {
                     numberArrayCounter--;
                     numberArrayCounter--;
@@ -97,6 +99,10 @@ public class Stack {
         myStack = new java.util.Stack();
     }
 
+    /**
+     * This method returns the copy of the stack.
+     * @return
+     */
     public Stack copy() {
         Object[] copyArray = myStack.toArray();
         Stack copyStack = new Stack();
