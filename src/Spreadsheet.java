@@ -4,12 +4,21 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+/**
+ * This class is responsible for handling the main behaviors of a spreadsheet.
+ * @version 03/07/2022
+ * @author Varun Parbhakar, Andrew Dibble, and Minh Trung Le.
+ */
 public class Spreadsheet {
     private static int row;       //number of rows
     private static int col;       //num of columns
     private final Cell[][] spreadsheet; //the two-dimensional array to act as the spreadsheet and hold the cell values
     private final String fileName = "Saved_Spreadsheet.csv";
 
+    /**
+     * Constructor for square spreadsheet.
+     * @param num
+     */
     public Spreadsheet(int num) {
         row = num;
         col = num;
@@ -21,13 +30,18 @@ public class Spreadsheet {
         }
     }
 
+    /**
+     * Constructor for custom row and column spreadsheet.
+     * @param row
+     * @param col
+     */
     public Spreadsheet(int row, int col) {
         Spreadsheet.row = row;
         Spreadsheet.col = col;
         spreadsheet = new Cell[row][col];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                spreadsheet[i][j] = insertItem(i, j, "");
+                spreadsheet[i][j] = insertItem(i, j, "");// Initializing the cells
             }
         }
     }
@@ -42,6 +56,13 @@ public class Spreadsheet {
         return spreadsheet[cToken.getRow()][cToken.getColumn()];
     }
 
+    /**
+     * Inserts the items into the spreadsheet
+     * @param theRow
+     * @param theColumn
+     * @param theValue
+     * @return
+     */
     public Cell insertItem(int theRow, int theColumn, String theValue) {
 
         Cell myCell = new Cell(theValue);
@@ -49,14 +70,26 @@ public class Spreadsheet {
         return myCell;
     }
 
+    /**
+     * Returns the number of rows.
+     * @return
+     */
     public int getNumRows() {
         return row;
     }
 
+    /**
+     * Returns the number of columns.
+     * @return
+     */
     public int getNumColumns() {
         return col;
     }
 
+    /**
+     * Returns the number of spreadsheet.
+     * @return
+     */
     public Cell[][] getSpreadsheet() {
         return spreadsheet;
     }
@@ -223,6 +256,9 @@ public class Spreadsheet {
 
     }
 
+    /**
+     * Prints the header for the spreadsheet in the console.
+     */
     public void printHeader() {
         char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
@@ -263,7 +299,9 @@ public class Spreadsheet {
 
     }
 
-    //creating a new exception to handle when a cycle is found
+    /**
+     * creating a new exception to handle when a cycle is found.
+     */
     class CycleFoundException extends Exception {
         public CycleFoundException(String message) {
             super(message);
